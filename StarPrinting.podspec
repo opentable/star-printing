@@ -9,4 +9,6 @@ Pod::Spec.new do |s|
   s.requires_arc     = true
   s.source_files     = 'Classes/*.{h,m}'
   s.platform         = :ios, '7.0'
+  s.frameworks       = 'StarIO'
+  s.xcconfig         = { 'FRAMEWORK_SEARCH_PATHS' => '"$(SDKROOT)/Developer/Library/Frameworks", "$(DEVELOPER_LIBRARY_DIR)/Frameworks", $(PROJECT_DIR)' }
 end

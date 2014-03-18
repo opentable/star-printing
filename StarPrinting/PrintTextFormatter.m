@@ -136,22 +136,6 @@
 - (void)barcode:(NSString *)text type:(PrinterBarcodeType)type
 {
     [self add:kPrinterCMD_StartBarcode];
-    //[self add:text];
-    //[self add:kPrinterCMD_EndBarcode];
 }
 
 @end
-
-
-/*
- 
- [formatter bold:text next:^{
-    [formatter italicize:text next:nil];
- }];
- 
- [formatter bold:(text, ^{
-    [formatter italicize:(text, nil);
- }];
- 
- 
- */

@@ -17,5 +17,6 @@
 @interface NSObject (Printable)
 
 - (void)print;
+- (void)print:(Printer *)printer;
 
 @end

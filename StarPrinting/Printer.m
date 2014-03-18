@@ -11,8 +11,8 @@
 #import "FakeSMPort.h"
 #import <objc/runtime.h>
 
-#define DEBUG_PRINTING          1
 #define DEBUG_PREFIX            @"Printer:"
+#define kConnectedPrinterKey    @"ConnectedPrinterKey"
 
 #define kHeartbeatInterval      5.f
 #define kJobRetryInterval       2.f
@@ -82,9 +82,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             }
         }
         
-        if(DEBUG_PRINTING) {
-            NSLog(@"%@", [NSString stringWithFormat:@"Printers found: %@", printers]);
-        }
+        NSLog(@"%@", [NSString stringWithFormat:@"Printers found: %@", printers]);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             block(printers);
@@ -150,6 +148,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     self.queue = [[NSOperationQueue alloc] init];
     self.queue.maxConcurrentOperationCount = 1;
     self.previousOnlineStatus = PrinterStatusDisconnected;
+    self.debug = NO;
 }
 
 #pragma mark - Coding
@@ -227,7 +226,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         for(int i = 0; i < 20; i++) {
             portConnected = [self openPort];
             if(portConnected) break;
-            if(DEBUG_PRINTING) NSLog(@"Retrying to open port!");
+            if(self.debug) NSLog(@"Retrying to open port!");
             usleep(1000 * 333);
         }
         
@@ -271,7 +270,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             
             if([self.jobs count] == 0) return;
            
-            if(DEBUG_PRINTING) NSLog(@"***** RETRYING JOB ******");
+            if(self.debug) NSLog(@"***** RETRYING JOB ******");
             
             PrinterJobBlock job = self.jobs[0];
             [self.jobs removeObjectAtIndex:0];
@@ -496,7 +495,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     }
 }
 
-#pragma mark - Helpers
+#pragma mark - Properties
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat:@"<Printer: %p { name:%@ mac:%@ model:%@ portName:%@ status:%@}>", self, self.name, self.macAddress, self.modelName, self.portName, [Printer stringForStatus:self.status]];
@@ -533,16 +532,17 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     return self.hasError && !self.isOffline && self.status != PrinterStatusPrintError;
 }
 
+#pragma mark - Helpers
 - (void)log:(NSString *)message
 {
-    if(DEBUG_PRINTING) {
+    if(self.debug) {
         NSLog(@"%@", [NSString stringWithFormat:@"%@ %@ -> %@", DEBUG_PREFIX, self, message]);
     }
 }
 
 - (void)printJobCount:(NSString *)message
 {
-    if(DEBUG_PRINTING) NSLog(@"%@ -> Job Count = %i", message, [self.jobs count]);
+    if(self.debug) NSLog(@"%@ -> Job Count = %i", message, [self.jobs count]);
 }
 
 - (BOOL)isConnectJob:(PrinterJobBlock)job

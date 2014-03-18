@@ -40,7 +40,6 @@ static inline void SwizzleClassMethod(Class c, SEL orig, SEL new) {
 
 @interface FakeSMPort ()
 
-//@property (nonatomic, assign) PrinterStatus status;
 @property (nonatomic, assign) BOOL isOffline;
 
 @end

@@ -37,9 +37,7 @@
 		57ECD02D18D8B01800EE51FF /* PrintTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD02918D8B01800EE51FF /* PrintTextFormatter.m */; };
 		57ECD03318D8B12D00EE51FF /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD03218D8B12D00EE51FF /* StarIO.framework */; };
 		57ECD03918D8B1B500EE51FF /* FakeSMPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03718D8B1B500EE51FF /* FakeSMPort.m */; };
-		57ECD03A18D8B1D600EE51FF /* FakePrinterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03518D8B1B500EE51FF /* FakePrinterManager.m */; };
 		57ECD03B18D8B1E000EE51FF /* FakePrinterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03518D8B1B500EE51FF /* FakePrinterManager.m */; };
-		57ECD03C18D8B1E400EE51FF /* FakeSMPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03718D8B1B500EE51FF /* FakeSMPort.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -453,9 +451,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57ECD03C18D8B1E400EE51FF /* FakeSMPort.m in Sources */,
 				57ECCFE718D8ADCD00EE51FF /* ViewController.m in Sources */,
-				57ECD03A18D8B1D600EE51FF /* FakePrinterManager.m in Sources */,
 				57ECCFE118D8ADCD00EE51FF /* AppDelegate.m in Sources */,
 				57ECCFDD18D8ADCD00EE51FF /* main.m in Sources */,
 			);
@@ -620,9 +616,9 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StarPrintingExample.app/StarPrintingExample";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StarPrinting/StarPrinting-Prefix.pch";
@@ -642,9 +638,9 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StarPrintingExample.app/StarPrintingExample";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StarPrinting/StarPrinting-Prefix.pch";

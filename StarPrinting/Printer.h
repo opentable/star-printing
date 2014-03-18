@@ -7,14 +7,6 @@
 #import <Foundation/Foundation.h>
 #import <StarIO/SMPort.h>
 
-#define kConnectedPrinterKey  @"ConnectedPrinterKey"
-
-#define kPrinterNotAvailableMessage     @"No printers found"
-#define kPrinterConnectedMessage        @"Connected Printer"
-#define kPrinterConnectingMessage       @"Connecting"
-#define kPrinterSearchingMessage        @"Searching"
-#define kPrinterAvailableMessage        @"Printers Available"
-
 typedef enum PrinterStatus
 {
     PrinterStatusDisconnected,
@@ -43,6 +35,8 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 
 @class PortInfo, Printable;
 @interface Printer : NSObject
+
+@property (nonatomic, assign) BOOL debug;
 
 @property (nonatomic, strong) NSMutableArray *jobs;
 @property (nonatomic, strong) NSOperationQueue *queue;
