@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Printer.h"
+#import "PrinterCell.h"
 
-@interface ViewController : UIViewController
+@protocol PrinterConnectivityDelegate <NSObject>
+
+- (void)connectedPrinterDidChangeTo:(Printer *)printer;
+
+@end
+
+@class Printer,GlobalNavigationViewController;
+@interface ViewController : UIViewController <PrinterDelegate, UITableViewDataSource, UITableViewDelegate>
+
+- (void)addDelegate:(id<PrinterConnectivityDelegate>)delegate;
+- (void)removeDelegate:(id<PrinterConnectivityDelegate>)delegate;
 
 @end

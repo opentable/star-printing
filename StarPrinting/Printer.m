@@ -12,7 +12,6 @@
 #import <objc/runtime.h>
 
 #define DEBUG_PREFIX            @"Printer:"
-#define kConnectedPrinterKey    @"ConnectedPrinterKey"
 
 #define kHeartbeatInterval      5.f
 #define kJobRetryInterval       2.f
@@ -337,10 +336,25 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 - (void)printTest
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"xml"];
-    NSData *data = [[NSFileManager defaultManager] contentsAtPath:path];
+    NSData *contents = [[NSFileManager defaultManager] contentsAtPath:path];
+    NSMutableString *s = [[NSMutableString alloc] initWithData:contents encoding:NSUTF8StringEncoding];
+    
+    NSDateFormatter *dateFormat = dateFormatterFromFormatString(@"MMMM d, yyyy h:mm a");
+    NSString *date = [dateFormat stringFromDate:[NSDate date]];
+    
+    NSDictionary *data = @{
+                           @"{{printerStatus}}" : [Printer stringForStatus:printer.status],
+                           @"{{printerName}}" : printer.name,
+                           @"{{date}}" : date
+                           };
+    
+    [data enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+        [s replaceOccurrencesOfString:key withString:value options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    }];
     
     PrintParser *parser = [[PrintParser alloc] init];
-    [self print:[parser parse:data]];
+    NSData *formatted = [parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]];
+    [self print:formatted];
 }
 
 - (void)print:(NSData *)data

@@ -7,6 +7,8 @@
 #import <Foundation/Foundation.h>
 #import <StarIO/SMPort.h>
 
+#define kConnectedPrinterKey    @"ConnectedPrinterKey"
+
 typedef enum PrinterStatus
 {
     PrinterStatusDisconnected,

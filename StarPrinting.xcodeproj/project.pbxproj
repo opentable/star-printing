@@ -35,9 +35,13 @@
 		57ECD02B18D8B01800EE51FF /* Printer.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD02518D8B01800EE51FF /* Printer.m */; };
 		57ECD02C18D8B01800EE51FF /* PrintParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD02718D8B01800EE51FF /* PrintParser.m */; };
 		57ECD02D18D8B01800EE51FF /* PrintTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD02918D8B01800EE51FF /* PrintTextFormatter.m */; };
-		57ECD03318D8B12D00EE51FF /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD03218D8B12D00EE51FF /* StarIO.framework */; };
 		57ECD03918D8B1B500EE51FF /* FakeSMPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03718D8B1B500EE51FF /* FakeSMPort.m */; };
 		57ECD03B18D8B1E000EE51FF /* FakePrinterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03518D8B1B500EE51FF /* FakePrinterManager.m */; };
+		57ECD04618D8E62C00EE51FF /* (null) in Sources */ = {isa = PBXBuildFile; };
+		57ECD04E18D8E94900EE51FF /* PrinterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD04D18D8E94900EE51FF /* PrinterCell.m */; };
+		57ECD05018D8E97600EE51FF /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD04F18D8E97600EE51FF /* StarIO.framework */; };
+		57ECD05118D8E98100EE51FF /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD04F18D8E97600EE51FF /* StarIO.framework */; };
+		57ECD05318D8E98800EE51FF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD05218D8E98800EE51FF /* SenTestingKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,13 +110,14 @@
 		57ECD02718D8B01800EE51FF /* PrintParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintParser.m; sourceTree = "<group>"; };
 		57ECD02818D8B01800EE51FF /* PrintTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintTextFormatter.h; sourceTree = "<group>"; };
 		57ECD02918D8B01800EE51FF /* PrintTextFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintTextFormatter.m; sourceTree = "<group>"; };
-		57ECD02E18D8B07400EE51FF /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = text; name = StarIO.framework; path = ../../StarIO.framework; sourceTree = "<group>"; };
-		57ECD03018D8B0BC00EE51FF /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StarIO.framework; path = ../../Frameworks/StarIO.framework; sourceTree = "<group>"; };
-		57ECD03218D8B12D00EE51FF /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StarIO.framework; sourceTree = "<group>"; };
 		57ECD03418D8B1B500EE51FF /* FakePrinterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakePrinterManager.h; sourceTree = "<group>"; };
 		57ECD03518D8B1B500EE51FF /* FakePrinterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakePrinterManager.m; sourceTree = "<group>"; };
 		57ECD03618D8B1B500EE51FF /* FakeSMPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeSMPort.h; sourceTree = "<group>"; };
 		57ECD03718D8B1B500EE51FF /* FakeSMPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeSMPort.m; sourceTree = "<group>"; };
+		57ECD04C18D8E94900EE51FF /* PrinterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrinterCell.h; path = StarPrintingExample/PrinterCell.h; sourceTree = "<group>"; };
+		57ECD04D18D8E94900EE51FF /* PrinterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrinterCell.m; path = StarPrintingExample/PrinterCell.m; sourceTree = "<group>"; };
+		57ECD04F18D8E97600EE51FF /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StarIO.framework; sourceTree = "<group>"; };
+		57ECD05218D8E98800EE51FF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,7 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57ECD03318D8B12D00EE51FF /* StarIO.framework in Frameworks */,
+				57ECD05018D8E97600EE51FF /* StarIO.framework in Frameworks */,
 				57ECCF9B18D8AD5E00EE51FF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +134,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57ECD05318D8E98800EE51FF /* SenTestingKit.framework in Frameworks */,
+				57ECD05118D8E98100EE51FF /* StarIO.framework in Frameworks */,
 				57ECCFAF18D8AD5E00EE51FF /* libStarPrinting.a in Frameworks */,
 				57ECCFA918D8AD5E00EE51FF /* XCTest.framework in Frameworks */,
 				57ECCFAC18D8AD5E00EE51FF /* UIKit.framework in Frameworks */,
@@ -162,6 +169,8 @@
 		57ECCF8E18D8AD5E00EE51FF = {
 			isa = PBXGroup;
 			children = (
+				57ECD04C18D8E94900EE51FF /* PrinterCell.h */,
+				57ECD04D18D8E94900EE51FF /* PrinterCell.m */,
 				57ECCF9C18D8AD5E00EE51FF /* StarPrinting */,
 				57ECCFB018D8AD5E00EE51FF /* StarPrintingTests */,
 				57ECCFD618D8ADCD00EE51FF /* StarPrintingExample */,
@@ -184,9 +193,8 @@
 		57ECCF9918D8AD5E00EE51FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				57ECD03218D8B12D00EE51FF /* StarIO.framework */,
-				57ECD03018D8B0BC00EE51FF /* StarIO.framework */,
-				57ECD02E18D8B07400EE51FF /* StarIO.framework */,
+				57ECD05218D8E98800EE51FF /* SenTestingKit.framework */,
+				57ECD04F18D8E97600EE51FF /* StarIO.framework */,
 				57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */,
 				57ECCFA818D8AD5E00EE51FF /* XCTest.framework */,
 				57ECCFAB18D8AD5E00EE51FF /* UIKit.framework */,
@@ -451,9 +459,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57ECD04618D8E62C00EE51FF /* (null) in Sources */,
 				57ECCFE718D8ADCD00EE51FF /* ViewController.m in Sources */,
 				57ECCFE118D8ADCD00EE51FF /* AppDelegate.m in Sources */,
 				57ECCFDD18D8ADCD00EE51FF /* main.m in Sources */,
+				57ECD04E18D8E94900EE51FF /* PrinterCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,6 +629,7 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 					"$(PROJECT_DIR)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StarPrinting/StarPrinting-Prefix.pch";
@@ -641,6 +652,7 @@
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
 					"$(PROJECT_DIR)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "StarPrinting/StarPrinting-Prefix.pch";

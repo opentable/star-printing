@@ -1,4 +1,12 @@
-<format>
+<print>
+    
+    <dl />
+    <left />
+    <center>
+    
+    <large>PRINT TEST</large>
+    <text>\nPrinter {{printerName}} - {{printerStatus}}</text>
+    
     <text align="left">Left Aligned Text\n</text>
     <text align="center">Center Aligned Text\n</text>
     <text align="right">Right Aligned Text\n</text>
@@ -11,4 +19,4 @@
     <nl />
     <nl />
     <nl />
-</format>
+</print>
