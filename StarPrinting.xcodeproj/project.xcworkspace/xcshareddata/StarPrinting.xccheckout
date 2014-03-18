@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>BBB4975F-F247-43A8-B7D5-609FFA3BA886</string>
+	<key>IDESourceControlProjectName</key>
+	<string>StarPrinting</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>022F73ED-95A9-4774-A8DD-7217A551403A</key>
+		<string>ssh://github.com/opentable/star-printing.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>StarPrinting.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>022F73ED-95A9-4774-A8DD-7217A551403A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/opentable/star-printing.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>022F73ED-95A9-4774-A8DD-7217A551403A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>022F73ED-95A9-4774-A8DD-7217A551403A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>star-printing</string>
+		</dict>
+	</array>
+</dict>
+</plist>
