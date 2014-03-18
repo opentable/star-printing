@@ -1,0 +1,749 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		57ECCF9B18D8AD5E00EE51FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */; };
+		57ECCFA918D8AD5E00EE51FF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCFA818D8AD5E00EE51FF /* XCTest.framework */; };
+		57ECCFAA18D8AD5E00EE51FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */; };
+		57ECCFAC18D8AD5E00EE51FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCFAB18D8AD5E00EE51FF /* UIKit.framework */; };
+		57ECCFAF18D8AD5E00EE51FF /* libStarPrinting.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9718D8AD5E00EE51FF /* libStarPrinting.a */; };
+		57ECCFB518D8AD5E00EE51FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 57ECCFB318D8AD5E00EE51FF /* InfoPlist.strings */; };
+		57ECCFB718D8AD5E00EE51FF /* StarPrintingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFB618D8AD5E00EE51FF /* StarPrintingTests.m */; };
+		57ECCFC918D8AD7F00EE51FF /* Printable.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFC118D8AD7F00EE51FF /* Printable.m */; };
+		57ECCFCA18D8AD7F00EE51FF /* Printer.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFC418D8AD7F00EE51FF /* Printer.m */; };
+		57ECCFCB18D8AD7F00EE51FF /* PrintParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFC618D8AD7F00EE51FF /* PrintParser.m */; };
+		57ECCFCC18D8AD7F00EE51FF /* PrintTextFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFC818D8AD7F00EE51FF /* PrintTextFormatter.m */; };
+		57ECCFD218D8ADCD00EE51FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */; };
+		57ECCFD418D8ADCD00EE51FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCFD318D8ADCD00EE51FF /* CoreGraphics.framework */; };
+		57ECCFD518D8ADCD00EE51FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCFAB18D8AD5E00EE51FF /* UIKit.framework */; };
+		57ECCFDB18D8ADCD00EE51FF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 57ECCFD918D8ADCD00EE51FF /* InfoPlist.strings */; };
+		57ECCFDD18D8ADCD00EE51FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFDC18D8ADCD00EE51FF /* main.m */; };
+		57ECCFE118D8ADCD00EE51FF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFE018D8ADCD00EE51FF /* AppDelegate.m */; };
+		57ECCFE418D8ADCD00EE51FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57ECCFE218D8ADCD00EE51FF /* Main.storyboard */; };
+		57ECCFE718D8ADCD00EE51FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFE618D8ADCD00EE51FF /* ViewController.m */; };
+		57ECCFE918D8ADCD00EE51FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57ECCFE818D8ADCD00EE51FF /* Images.xcassets */; };
+		57ECCFEF18D8ADCE00EE51FF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCFA818D8AD5E00EE51FF /* XCTest.framework */; };
+		57ECCFF018D8ADCE00EE51FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */; };
+		57ECCFF118D8ADCE00EE51FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCFAB18D8AD5E00EE51FF /* UIKit.framework */; };
+		57ECD00818D8AE9500EE51FF /* receipt.txt in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD00318D8AE4B00EE51FF /* receipt.txt */; };
+		57ECD00918D8AE9800EE51FF /* receipt.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD00418D8AE4B00EE51FF /* receipt.xml */; };
+		57ECD00A18D8AE9D00EE51FF /* receipt_concise.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD00518D8AE4B00EE51FF /* receipt_concise.xml */; };
+		57ECD00B18D8AE9D00EE51FF /* receipt_verbose.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD00618D8AE4B00EE51FF /* receipt_verbose.xml */; };
+		57ECD00C18D8AE9D00EE51FF /* test.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD00718D8AE4B00EE51FF /* test.xml */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		57ECCFAD18D8AD5E00EE51FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57ECCF8F18D8AD5E00EE51FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57ECCF9618D8AD5E00EE51FF;
+			remoteInfo = StarPrinting;
+		};
+		57ECCFF218D8ADCE00EE51FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 57ECCF8F18D8AD5E00EE51FF /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 57ECCFD018D8ADCD00EE51FF;
+			remoteInfo = StarPrintingExample;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		57ECCF9518D8AD5E00EE51FF /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		57ECCF9718D8AD5E00EE51FF /* libStarPrinting.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStarPrinting.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		57ECCF9E18D8AD5E00EE51FF /* StarPrinting-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StarPrinting-Prefix.pch"; sourceTree = "<group>"; };
+		57ECCFA718D8AD5E00EE51FF /* StarPrintingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarPrintingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		57ECCFA818D8AD5E00EE51FF /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		57ECCFAB18D8AD5E00EE51FF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		57ECCFB218D8AD5E00EE51FF /* StarPrintingTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StarPrintingTests-Info.plist"; sourceTree = "<group>"; };
+		57ECCFB418D8AD5E00EE51FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		57ECCFB618D8AD5E00EE51FF /* StarPrintingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StarPrintingTests.m; sourceTree = "<group>"; };
+		57ECCFC018D8AD7F00EE51FF /* Printable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Printable.h; path = ../../../StarPrinting/Printable.h; sourceTree = "<group>"; };
+		57ECCFC118D8AD7F00EE51FF /* Printable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Printable.m; path = ../../../StarPrinting/Printable.m; sourceTree = "<group>"; };
+		57ECCFC218D8AD7F00EE51FF /* PrintCommands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrintCommands.h; path = ../../../StarPrinting/PrintCommands.h; sourceTree = "<group>"; };
+		57ECCFC318D8AD7F00EE51FF /* Printer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Printer.h; path = ../../../StarPrinting/Printer.h; sourceTree = "<group>"; };
+		57ECCFC418D8AD7F00EE51FF /* Printer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Printer.m; path = ../../../StarPrinting/Printer.m; sourceTree = "<group>"; };
+		57ECCFC518D8AD7F00EE51FF /* PrintParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrintParser.h; path = ../../../StarPrinting/PrintParser.h; sourceTree = "<group>"; };
+		57ECCFC618D8AD7F00EE51FF /* PrintParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrintParser.m; path = ../../../StarPrinting/PrintParser.m; sourceTree = "<group>"; };
+		57ECCFC718D8AD7F00EE51FF /* PrintTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrintTextFormatter.h; path = ../../../StarPrinting/PrintTextFormatter.h; sourceTree = "<group>"; };
+		57ECCFC818D8AD7F00EE51FF /* PrintTextFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrintTextFormatter.m; path = ../../../StarPrinting/PrintTextFormatter.m; sourceTree = "<group>"; };
+		57ECCFD118D8ADCD00EE51FF /* StarPrintingExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarPrintingExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		57ECCFD318D8ADCD00EE51FF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		57ECCFD818D8ADCD00EE51FF /* StarPrintingExample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StarPrintingExample-Info.plist"; sourceTree = "<group>"; };
+		57ECCFDA18D8ADCD00EE51FF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		57ECCFDC18D8ADCD00EE51FF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		57ECCFDE18D8ADCD00EE51FF /* StarPrintingExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StarPrintingExample-Prefix.pch"; sourceTree = "<group>"; };
+		57ECCFDF18D8ADCD00EE51FF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		57ECCFE018D8ADCD00EE51FF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		57ECCFE318D8ADCD00EE51FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		57ECCFE518D8ADCD00EE51FF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		57ECCFE618D8ADCD00EE51FF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		57ECCFE818D8ADCD00EE51FF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		57ECCFEE18D8ADCD00EE51FF /* StarPrintingExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarPrintingExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		57ECD00318D8AE4B00EE51FF /* receipt.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = receipt.txt; sourceTree = "<group>"; };
+		57ECD00418D8AE4B00EE51FF /* receipt.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = receipt.xml; sourceTree = "<group>"; };
+		57ECD00518D8AE4B00EE51FF /* receipt_concise.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = receipt_concise.xml; sourceTree = "<group>"; };
+		57ECD00618D8AE4B00EE51FF /* receipt_verbose.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = receipt_verbose.xml; sourceTree = "<group>"; };
+		57ECD00718D8AE4B00EE51FF /* test.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = test.xml; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		57ECCF9418D8AD5E00EE51FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCF9B18D8AD5E00EE51FF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57ECCFA418D8AD5E00EE51FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCFAF18D8AD5E00EE51FF /* libStarPrinting.a in Frameworks */,
+				57ECCFA918D8AD5E00EE51FF /* XCTest.framework in Frameworks */,
+				57ECCFAC18D8AD5E00EE51FF /* UIKit.framework in Frameworks */,
+				57ECCFAA18D8AD5E00EE51FF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57ECCFCE18D8ADCD00EE51FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCFD418D8ADCD00EE51FF /* CoreGraphics.framework in Frameworks */,
+				57ECCFD518D8ADCD00EE51FF /* UIKit.framework in Frameworks */,
+				57ECCFD218D8ADCD00EE51FF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57ECCFEB18D8ADCD00EE51FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCFEF18D8ADCE00EE51FF /* XCTest.framework in Frameworks */,
+				57ECCFF118D8ADCE00EE51FF /* UIKit.framework in Frameworks */,
+				57ECCFF018D8ADCE00EE51FF /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		57ECCF8E18D8AD5E00EE51FF = {
+			isa = PBXGroup;
+			children = (
+				57ECCF9C18D8AD5E00EE51FF /* StarPrinting */,
+				57ECCFB018D8AD5E00EE51FF /* StarPrintingTests */,
+				57ECCFD618D8ADCD00EE51FF /* StarPrintingExample */,
+				57ECCF9918D8AD5E00EE51FF /* Frameworks */,
+				57ECCF9818D8AD5E00EE51FF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		57ECCF9818D8AD5E00EE51FF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				57ECCF9718D8AD5E00EE51FF /* libStarPrinting.a */,
+				57ECCFA718D8AD5E00EE51FF /* StarPrintingTests.xctest */,
+				57ECCFD118D8ADCD00EE51FF /* StarPrintingExample.app */,
+				57ECCFEE18D8ADCD00EE51FF /* StarPrintingExampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		57ECCF9918D8AD5E00EE51FF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */,
+				57ECCFA818D8AD5E00EE51FF /* XCTest.framework */,
+				57ECCFAB18D8AD5E00EE51FF /* UIKit.framework */,
+				57ECCFD318D8ADCD00EE51FF /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		57ECCF9C18D8AD5E00EE51FF /* StarPrinting */ = {
+			isa = PBXGroup;
+			children = (
+				57ECCFC018D8AD7F00EE51FF /* Printable.h */,
+				57ECCFC118D8AD7F00EE51FF /* Printable.m */,
+				57ECCFC218D8AD7F00EE51FF /* PrintCommands.h */,
+				57ECCFC318D8AD7F00EE51FF /* Printer.h */,
+				57ECCFC418D8AD7F00EE51FF /* Printer.m */,
+				57ECCFC518D8AD7F00EE51FF /* PrintParser.h */,
+				57ECCFC618D8AD7F00EE51FF /* PrintParser.m */,
+				57ECCFC718D8AD7F00EE51FF /* PrintTextFormatter.h */,
+				57ECCFC818D8AD7F00EE51FF /* PrintTextFormatter.m */,
+				57ECCF9D18D8AD5E00EE51FF /* Supporting Files */,
+			);
+			path = StarPrinting;
+			sourceTree = "<group>";
+		};
+		57ECCF9D18D8AD5E00EE51FF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				57ECCF9E18D8AD5E00EE51FF /* StarPrinting-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		57ECCFB018D8AD5E00EE51FF /* StarPrintingTests */ = {
+			isa = PBXGroup;
+			children = (
+				57ECCFB618D8AD5E00EE51FF /* StarPrintingTests.m */,
+				57ECCFB118D8AD5E00EE51FF /* Supporting Files */,
+			);
+			path = StarPrintingTests;
+			sourceTree = "<group>";
+		};
+		57ECCFB118D8AD5E00EE51FF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				57ECCFB218D8AD5E00EE51FF /* StarPrintingTests-Info.plist */,
+				57ECCFB318D8AD5E00EE51FF /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		57ECCFD618D8ADCD00EE51FF /* StarPrintingExample */ = {
+			isa = PBXGroup;
+			children = (
+				57ECCFDF18D8ADCD00EE51FF /* AppDelegate.h */,
+				57ECCFE018D8ADCD00EE51FF /* AppDelegate.m */,
+				57ECCFE218D8ADCD00EE51FF /* Main.storyboard */,
+				57ECCFE518D8ADCD00EE51FF /* ViewController.h */,
+				57ECCFE618D8ADCD00EE51FF /* ViewController.m */,
+				57ECCFE818D8ADCD00EE51FF /* Images.xcassets */,
+				57ECD00218D8AE4B00EE51FF /* samples */,
+				57ECCFD718D8ADCD00EE51FF /* Supporting Files */,
+			);
+			path = StarPrintingExample;
+			sourceTree = "<group>";
+		};
+		57ECCFD718D8ADCD00EE51FF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				57ECCFD818D8ADCD00EE51FF /* StarPrintingExample-Info.plist */,
+				57ECCFD918D8ADCD00EE51FF /* InfoPlist.strings */,
+				57ECCFDC18D8ADCD00EE51FF /* main.m */,
+				57ECCFDE18D8ADCD00EE51FF /* StarPrintingExample-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		57ECD00218D8AE4B00EE51FF /* samples */ = {
+			isa = PBXGroup;
+			children = (
+				57ECD00318D8AE4B00EE51FF /* receipt.txt */,
+				57ECD00418D8AE4B00EE51FF /* receipt.xml */,
+				57ECD00518D8AE4B00EE51FF /* receipt_concise.xml */,
+				57ECD00618D8AE4B00EE51FF /* receipt_verbose.xml */,
+				57ECD00718D8AE4B00EE51FF /* test.xml */,
+			);
+			name = samples;
+			path = "../../../star-printing/Resources/samples";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		57ECCF9618D8AD5E00EE51FF /* StarPrinting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57ECCFBA18D8AD5E00EE51FF /* Build configuration list for PBXNativeTarget "StarPrinting" */;
+			buildPhases = (
+				57ECCF9318D8AD5E00EE51FF /* Sources */,
+				57ECCF9418D8AD5E00EE51FF /* Frameworks */,
+				57ECCF9518D8AD5E00EE51FF /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StarPrinting;
+			productName = StarPrinting;
+			productReference = 57ECCF9718D8AD5E00EE51FF /* libStarPrinting.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		57ECCFA618D8AD5E00EE51FF /* StarPrintingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57ECCFBD18D8AD5E00EE51FF /* Build configuration list for PBXNativeTarget "StarPrintingTests" */;
+			buildPhases = (
+				57ECCFA318D8AD5E00EE51FF /* Sources */,
+				57ECCFA418D8AD5E00EE51FF /* Frameworks */,
+				57ECCFA518D8AD5E00EE51FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57ECCFAE18D8AD5E00EE51FF /* PBXTargetDependency */,
+			);
+			name = StarPrintingTests;
+			productName = StarPrintingTests;
+			productReference = 57ECCFA718D8AD5E00EE51FF /* StarPrintingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		57ECCFD018D8ADCD00EE51FF /* StarPrintingExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57ECCFFC18D8ADCE00EE51FF /* Build configuration list for PBXNativeTarget "StarPrintingExample" */;
+			buildPhases = (
+				57ECCFCD18D8ADCD00EE51FF /* Sources */,
+				57ECCFCE18D8ADCD00EE51FF /* Frameworks */,
+				57ECCFCF18D8ADCD00EE51FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StarPrintingExample;
+			productName = StarPrintingExample;
+			productReference = 57ECCFD118D8ADCD00EE51FF /* StarPrintingExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+		57ECCFED18D8ADCD00EE51FF /* StarPrintingExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 57ECCFFF18D8ADCE00EE51FF /* Build configuration list for PBXNativeTarget "StarPrintingExampleTests" */;
+			buildPhases = (
+				57ECCFEA18D8ADCD00EE51FF /* Sources */,
+				57ECCFEB18D8ADCD00EE51FF /* Frameworks */,
+				57ECCFEC18D8ADCD00EE51FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				57ECCFF318D8ADCE00EE51FF /* PBXTargetDependency */,
+			);
+			name = StarPrintingExampleTests;
+			productName = StarPrintingExampleTests;
+			productReference = 57ECCFEE18D8ADCD00EE51FF /* StarPrintingExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		57ECCF8F18D8AD5E00EE51FF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = OpenTable;
+				TargetAttributes = {
+					57ECCFA618D8AD5E00EE51FF = {
+						TestTargetID = 57ECCFD018D8ADCD00EE51FF;
+					};
+					57ECCFED18D8ADCD00EE51FF = {
+						TestTargetID = 57ECCFD018D8ADCD00EE51FF;
+					};
+				};
+			};
+			buildConfigurationList = 57ECCF9218D8AD5E00EE51FF /* Build configuration list for PBXProject "StarPrinting" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 57ECCF8E18D8AD5E00EE51FF;
+			productRefGroup = 57ECCF9818D8AD5E00EE51FF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				57ECCF9618D8AD5E00EE51FF /* StarPrinting */,
+				57ECCFA618D8AD5E00EE51FF /* StarPrintingTests */,
+				57ECCFD018D8ADCD00EE51FF /* StarPrintingExample */,
+				57ECCFED18D8ADCD00EE51FF /* StarPrintingExampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		57ECCFA518D8AD5E00EE51FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCFB518D8AD5E00EE51FF /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57ECCFCF18D8ADCD00EE51FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCFE918D8ADCD00EE51FF /* Images.xcassets in Resources */,
+				57ECD00A18D8AE9D00EE51FF /* receipt_concise.xml in Resources */,
+				57ECD00918D8AE9800EE51FF /* receipt.xml in Resources */,
+				57ECD00B18D8AE9D00EE51FF /* receipt_verbose.xml in Resources */,
+				57ECD00818D8AE9500EE51FF /* receipt.txt in Resources */,
+				57ECCFDB18D8ADCD00EE51FF /* InfoPlist.strings in Resources */,
+				57ECCFE418D8ADCD00EE51FF /* Main.storyboard in Resources */,
+				57ECD00C18D8AE9D00EE51FF /* test.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57ECCFEC18D8ADCD00EE51FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		57ECCF9318D8AD5E00EE51FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCFCA18D8AD7F00EE51FF /* Printer.m in Sources */,
+				57ECCFCC18D8AD7F00EE51FF /* PrintTextFormatter.m in Sources */,
+				57ECCFCB18D8AD7F00EE51FF /* PrintParser.m in Sources */,
+				57ECCFC918D8AD7F00EE51FF /* Printable.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57ECCFA318D8AD5E00EE51FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCFB718D8AD5E00EE51FF /* StarPrintingTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57ECCFCD18D8ADCD00EE51FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57ECCFE718D8ADCD00EE51FF /* ViewController.m in Sources */,
+				57ECCFE118D8ADCD00EE51FF /* AppDelegate.m in Sources */,
+				57ECCFDD18D8ADCD00EE51FF /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		57ECCFEA18D8ADCD00EE51FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		57ECCFAE18D8AD5E00EE51FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57ECCF9618D8AD5E00EE51FF /* StarPrinting */;
+			targetProxy = 57ECCFAD18D8AD5E00EE51FF /* PBXContainerItemProxy */;
+		};
+		57ECCFF318D8ADCE00EE51FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 57ECCFD018D8ADCD00EE51FF /* StarPrintingExample */;
+			targetProxy = 57ECCFF218D8ADCE00EE51FF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		57ECCFB318D8AD5E00EE51FF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				57ECCFB418D8AD5E00EE51FF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		57ECCFD918D8ADCD00EE51FF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				57ECCFDA18D8ADCD00EE51FF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		57ECCFE218D8ADCD00EE51FF /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				57ECCFE318D8ADCD00EE51FF /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		57ECCFB818D8AD5E00EE51FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		57ECCFB918D8AD5E00EE51FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		57ECCFBB18D8AD5E00EE51FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/StarPrinting.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StarPrinting/StarPrinting-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		57ECCFBC18D8AD5E00EE51FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = /tmp/StarPrinting.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StarPrinting/StarPrinting-Prefix.pch";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		57ECCFBE18D8AD5E00EE51FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StarPrintingExample.app/StarPrintingExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StarPrinting/StarPrinting-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "StarPrintingTests/StarPrintingTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		57ECCFBF18D8AD5E00EE51FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StarPrintingExample.app/StarPrintingExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StarPrinting/StarPrinting-Prefix.pch";
+				INFOPLIST_FILE = "StarPrintingTests/StarPrintingTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+		57ECCFFD18D8ADCE00EE51FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StarPrintingExample/StarPrintingExample-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "StarPrintingExample/StarPrintingExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		57ECCFFE18D8ADCE00EE51FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StarPrintingExample/StarPrintingExample-Prefix.pch";
+				INFOPLIST_FILE = "StarPrintingExample/StarPrintingExample-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		57ECD00018D8ADCE00EE51FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StarPrintingExample.app/StarPrintingExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StarPrintingExample/StarPrintingExample-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "StarPrintingExampleTests/StarPrintingExampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		57ECD00118D8ADCE00EE51FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/StarPrintingExample.app/StarPrintingExample";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StarPrintingExample/StarPrintingExample-Prefix.pch";
+				INFOPLIST_FILE = "StarPrintingExampleTests/StarPrintingExampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		57ECCF9218D8AD5E00EE51FF /* Build configuration list for PBXProject "StarPrinting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57ECCFB818D8AD5E00EE51FF /* Debug */,
+				57ECCFB918D8AD5E00EE51FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		57ECCFBA18D8AD5E00EE51FF /* Build configuration list for PBXNativeTarget "StarPrinting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57ECCFBB18D8AD5E00EE51FF /* Debug */,
+				57ECCFBC18D8AD5E00EE51FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		57ECCFBD18D8AD5E00EE51FF /* Build configuration list for PBXNativeTarget "StarPrintingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57ECCFBE18D8AD5E00EE51FF /* Debug */,
+				57ECCFBF18D8AD5E00EE51FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		57ECCFFC18D8ADCE00EE51FF /* Build configuration list for PBXNativeTarget "StarPrintingExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57ECCFFD18D8ADCE00EE51FF /* Debug */,
+				57ECCFFE18D8ADCE00EE51FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		57ECCFFF18D8ADCE00EE51FF /* Build configuration list for PBXNativeTarget "StarPrintingExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				57ECD00018D8ADCE00EE51FF /* Debug */,
+				57ECD00118D8ADCE00EE51FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 57ECCF8F18D8AD5E00EE51FF /* Project object */;
+}

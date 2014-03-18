@@ -1,6 +1,6 @@
 //
-//  StarPrintingExampleTests.m
-//  StarPrintingExampleTests
+//  StarPrintingTests.m
+//  StarPrintingTests
 //
 //  Created by Will Loderhose on 3/18/14.
 //  Copyright (c) 2014 OpenTable. All rights reserved.
@@ -8,11 +8,11 @@
 
 #import <XCTest/XCTest.h>
 
-@interface StarPrintingExampleTests : XCTestCase
+@interface StarPrintingTests : XCTestCase
 
 @end
 
-@implementation StarPrintingExampleTests
+@implementation StarPrintingTests
 
 - (void)setUp
 {

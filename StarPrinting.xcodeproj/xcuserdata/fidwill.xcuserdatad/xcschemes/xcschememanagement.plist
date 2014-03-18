@@ -4,20 +4,35 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>StarPrintingExample.xcscheme</key>
+		<key>StarPrinting.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>StarPrintingExample.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>57ECCEF218D8A8B900EE51FF</key>
+		<key>57ECCF9618D8AD5E00EE51FF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>57ECCF1318D8A8B900EE51FF</key>
+		<key>57ECCFA618D8AD5E00EE51FF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>57ECCFD018D8ADCD00EE51FF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>57ECCFED18D8ADCD00EE51FF</key>
 		<dict>
 			<key>primary</key>
 			<true/>

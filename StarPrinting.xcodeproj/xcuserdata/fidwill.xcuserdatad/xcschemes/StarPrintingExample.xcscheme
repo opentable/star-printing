@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "57ECCEF218D8A8B900EE51FF"
+               BlueprintIdentifier = "57ECCFD018D8ADCD00EE51FF"
                BuildableName = "StarPrintingExample.app"
                BlueprintName = "StarPrintingExample"
-               ReferencedContainer = "container:StarPrintingExample.xcodeproj">
+               ReferencedContainer = "container:StarPrinting.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,24 +28,14 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "57ECCF1318D8A8B900EE51FF"
-               BuildableName = "StarPrintingExampleTests.xctest"
-               BlueprintName = "StarPrintingExampleTests"
-               ReferencedContainer = "container:StarPrintingExample.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "57ECCEF218D8A8B900EE51FF"
+            BlueprintIdentifier = "57ECCFD018D8ADCD00EE51FF"
             BuildableName = "StarPrintingExample.app"
             BlueprintName = "StarPrintingExample"
-            ReferencedContainer = "container:StarPrintingExample.xcodeproj">
+            ReferencedContainer = "container:StarPrinting.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -61,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "57ECCEF218D8A8B900EE51FF"
+            BlueprintIdentifier = "57ECCFD018D8ADCD00EE51FF"
             BuildableName = "StarPrintingExample.app"
             BlueprintName = "StarPrintingExample"
-            ReferencedContainer = "container:StarPrintingExample.xcodeproj">
+            ReferencedContainer = "container:StarPrinting.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -79,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "57ECCEF218D8A8B900EE51FF"
+            BlueprintIdentifier = "57ECCFD018D8ADCD00EE51FF"
             BuildableName = "StarPrintingExample.app"
             BlueprintName = "StarPrintingExample"
-            ReferencedContainer = "container:StarPrintingExample.xcodeproj">
+            ReferencedContainer = "container:StarPrinting.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
