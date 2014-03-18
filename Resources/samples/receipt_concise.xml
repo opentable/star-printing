@@ -1,0 +1,66 @@
+<print>
+    <center>
+        Star Clothing Boutique\n
+        123 Star Road\n
+        City, State 12345\n\n
+    </center>
+    
+    <left>
+        \tDate: MM/DD/YYYY\t
+        Time: HH:MM PM \t
+        <dashedNewLine />
+        <bold>SALE</bold>
+        
+        \tDescription\t
+        Total\n
+        
+        300678566\t
+        PLAIN T-SHIRT\t
+        10.99\n
+        
+        300692003\t
+        BLACK DENIM\t
+        29.99\n
+        
+        300651148\t
+        BLUE DENIM\t
+        29.99\n
+        
+        300642980\t
+        STRIPED DRESS\t
+        49.99\n
+        
+        300638471\t
+        BLACK BOOTS\t
+        35.99\n
+        
+        Subtotal\t\t
+        156.95\n
+        
+        Tax\t\t
+        0.00
+        
+        <dashedNewLine />
+        
+        Total\t\t
+        <large>$156.95</large>\n
+        
+        <dashedNewLine />
+        <newLine />
+        
+        Charge\n
+        159.95\n
+        
+        Visa XXXX-XXXX-XXXX-0123\n\n
+        
+        <invertColor>Refunds and Exchanges</invertColor>\n
+        
+        Within <bold>30 Days</bold> with receipt\n
+        
+        And tags attached\n\n
+    </left>
+    
+    <center>
+        <barcode type="Code128">12ab34cd56</barcode>
+    </center>
+</print>

@@ -1,0 +1,26 @@
+<print>
+    <center>
+        <text>{{locationName}}</text>
+        <large>\n\n({{partySize}}) {{guestName}}</large>
+        <text>{{phoneNumber}}</text>
+        <text>\nWalk-In - {{notificationType}}</text>
+        <text>\n{{tables}}</text>
+        <text>{{serverName}}</text>
+        <text>\n\n{{date}}</text>
+    </center>
+    
+    <dl />
+    <left />
+    <text><bold>{{status}}</bold></text>
+    <text>\n{{waitTime}}</text>
+    <text>\nTime In: {{timeIn}}</text>
+    <text>\nTime to Seat: {{timeToSeat}}</text>
+    <text>\nTime Seated: {{timeSeated}}</text>
+    
+    <text>{{tags}}</text>
+    
+    <text>{{notes}}</text>
+    
+    <text>\n\n</text>
+    
+</print>

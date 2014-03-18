@@ -1,0 +1,69 @@
+<print>
+    <center>
+        <text>Star Clothing Boutique\n</text>
+        <text>123 Star Road\n</text>
+        <text>City, State 12345\n\n</text>
+    </center>
+    <left>
+        <text>Date: MM/DD/YYYY\t</text>
+        <text>Time: HH:MM PM</text>
+        <dashedNewline />
+        <newLine />
+        <text><bold>SALE</bold>\n</text>
+        
+        <text>SKU\t</text>
+        <text>Description\t</text>
+        <text>         Total\n</text>
+        
+        <text>300678566\t</text>
+        <text>PLAIN T-SHIRT\t</text>
+        <text>         10.99\n</text>
+        
+        <text>300692003\t</text>
+        <text>BLACK DENIM\t</text>
+        <text>         29.99\n</text>
+        
+        <text>300651148\t</text>
+        <text>BLUE DENIM\t</text>
+        <text>         29.99\n</text>
+        
+        <text>300642980\t</text>
+        <text>STRIPED DRESS\t</text>
+        <text>         49.99\n</text>
+        
+        <text>300638471\t</text>
+        <text>BLACK BOOTS\t</text>
+        <text>         35.99\n</text>
+        
+        <text>\nSubtotal\t\t</text>
+        <text>        156.95\n</text>
+        
+        <text>Tax\t\t</text>
+        <text>          0.00</text>
+        
+        <dashedNewline />
+        
+        <text>Total\t\t</text>
+        <text><large>$156.95</large></text>
+        
+        <dashedNewline />
+        <newLine />
+        
+        <text>Charge\n</text>
+        <text>159.95\n</text>
+        
+        <text>Visa XXXX-XXXX-XXXX-0123\n\n</text>
+        
+        <text><invertColor>Refunds and Exchanges</invertColor>\n</text>
+        
+        <text>Within <underline>30 Days</underline> with receipt\n</text>
+        
+        <text>And tags attached\n\n</text>
+    </left>
+    
+    <center>
+        <barcode> 12ab34cd56 </barcode>
+    </center>
+    <newLine />
+    <newLine />
+</print>

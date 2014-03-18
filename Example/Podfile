@@ -1,0 +1,7 @@
+pod "starPrinting", :path => "../starPrinting.podspec"
+
+target "Demo" do
+end
+
+target "DemoTests" do
+end

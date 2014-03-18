@@ -1,0 +1,14 @@
+<print>
+    
+    <dl />
+    <left />
+    <center>
+        <large>PRINT TEST</large>
+        <text>\nPrinter {{printerName}} - {{printerStatus}}</text>
+        <text>\n\n{{locationName}}</text>
+        <text>\n{{date}}</text>
+    </center>
+    <dl />
+    <text>\n\n</text>
+    
+</print>

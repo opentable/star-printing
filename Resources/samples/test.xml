@@ -1,0 +1,14 @@
+<format>
+    <text align="left">Left Aligned Text\n</text>
+    <text align="center">Center Aligned Text\n</text>
+    <text align="right">Right Aligned Text\n</text>
+    
+    <text align="left"><b>Bold Text</b></text>
+    <text><u>Underline Text</u></text>
+    <text><upl>Upperline Text</upl></text>
+    
+    <nl />
+    <nl />
+    <nl />
+    <nl />
+</format>
