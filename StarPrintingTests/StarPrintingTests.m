@@ -15,11 +15,11 @@
 
 #define kWaitTimeout    10.f
 
-@interface PrinterTests : SenAsyncTestCase
+@interface StarPrintingTests : SenAsyncTestCase
 
 @end
 
-@implementation PrinterTests
+@implementation StarPrintingTests
 
 + (void)load
 {

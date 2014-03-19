@@ -8,7 +8,6 @@
 #import <StarIO/Port.h>
 #import "PrintCommands.h"
 #import "PrintParser.h"
-#import "FakeSMPort.h"
 #import <objc/runtime.h>
 
 #define DEBUG_PREFIX            @"Printer:"
@@ -335,17 +334,15 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 #pragma mark - Printing
 - (void)printTest
 {
+    if(![Printer connectedPrinter]) return;
+    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"xml"];
     NSData *contents = [[NSFileManager defaultManager] contentsAtPath:path];
     NSMutableString *s = [[NSMutableString alloc] initWithData:contents encoding:NSUTF8StringEncoding];
     
-    NSDateFormatter *dateFormat = dateFormatterFromFormatString(@"MMMM d, yyyy h:mm a");
-    NSString *date = [dateFormat stringFromDate:[NSDate date]];
-    
     NSDictionary *data = @{
-                           @"{{printerStatus}}" : [Printer stringForStatus:printer.status],
-                           @"{{printerName}}" : printer.name,
-                           @"{{date}}" : date
+                           @"{{printerStatus}}" : [Printer stringForStatus:[Printer connectedPrinter].status],
+                           @"{{printerName}}" : [Printer connectedPrinter].name
                            };
     
     [data enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {

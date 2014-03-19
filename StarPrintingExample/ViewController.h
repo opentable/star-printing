@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Printer.h"
+#import <StarPrinting/Printer.h>
 #import "PrinterCell.h"
 
 @protocol PrinterConnectivityDelegate <NSObject>
@@ -21,5 +21,8 @@
 
 - (void)addDelegate:(id<PrinterConnectivityDelegate>)delegate;
 - (void)removeDelegate:(id<PrinterConnectivityDelegate>)delegate;
+
++ (NSString *)iconForPrinterStatus:(PrinterStatus)status;
++ (NSString *)statusMessageForPrinterStatus:(PrinterStatus)status;
 
 @end

@@ -11,8 +11,6 @@
 // Delcared here so the VC can calc the proper height for it
 #define kPrinterCellSubtextFont        [UIFont fontWithName:@"ProximaNova-Regular" size:15]
 
-#define PrinterCellAccessibilityLabel(printer) WFStr(@"Printer %@", printer)
-
 @class Printer;
 @interface PrinterCell : UITableViewCell
 

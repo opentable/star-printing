@@ -81,7 +81,7 @@
     _searchBtn.backgroundColor = [UIColor blueColor];
     _printTestBtn.backgroundColor = [UIColor blueColor];
     
-//    [self updatePrintTestBtn:_printerStatus];
+    [self updatePrintTestBtn:_printerStatus];
     
     _searchBtn.titleLabel.font =
     _printTestBtn.titleLabel.font = kBtnFont;
