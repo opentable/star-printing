@@ -17,7 +17,7 @@
 @end
 
 @class Printer,GlobalNavigationViewController;
-@interface ViewController : UIViewController <PrinterDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface ViewController : UIViewController <PrinterDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 - (void)addDelegate:(id<PrinterConnectivityDelegate>)delegate;
 - (void)removeDelegate:(id<PrinterConnectivityDelegate>)delegate;

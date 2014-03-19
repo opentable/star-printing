@@ -25,15 +25,17 @@
 #define kPrinterSearchingMessage        @"Searching"
 #define kPrinterAvailableMessage        @"Printers Available"
 
+@property (nonatomic, weak) UITextField *activeField;
+
+@property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (nonatomic, weak) IBOutlet UIButton *searchBtn;
 @property (nonatomic, weak) IBOutlet UIButton *printTestBtn;
 @property (nonatomic, weak) IBOutlet UITableView *printersTableView;
-@property (nonatomic, weak) IBOutlet UITextView *printableTextView;
+@property (nonatomic, strong) IBOutlet UITextField *printableTextField;
 @property (nonatomic, weak) IBOutlet UIButton *printBtn;
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *spinner;
-@property (nonatomic, weak) IBOutlet UILabel *emptyLabel;
 @property (nonatomic, weak) IBOutlet UILabel *helpLabel;
 
 @property (nonatomic, assign) BOOL searching;
@@ -53,11 +55,15 @@
 
 @implementation ViewController
 
-- (id)init
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     if(self) {
         self.printers = [NSMutableArray array];
+        if ([Printer connectedPrinter]) {
+            [self.printers addObject:[Printer connectedPrinter]];
+        }
+        self.delegates = [NSHashTable weakObjectsHashTable];
     }
     
     return self;
@@ -75,23 +81,18 @@
     _titleLabel.textColor = [UIColor blackColor];
     [_titleLabel sizeToFit];
     
-    _printTestBtn.titleLabel.font =
-    _searchBtn.titleLabel.font = kBtnFont;
+    _searchBtn.backgroundColor =
+    _printTestBtn.backgroundColor =
+    _printBtn.backgroundColor = [UIColor darkGrayColor];
     
-    _searchBtn.backgroundColor = [UIColor blueColor];
-    _printTestBtn.backgroundColor = [UIColor blueColor];
-    
-    [self updatePrintTestBtn:_printerStatus];
+//    [self updatePrintTestBtn:_printerStatus];
     
     _searchBtn.titleLabel.font =
     _printTestBtn.titleLabel.font = kBtnFont;
     
     _searchBtn.titleLabel.textColor =
-    _printTestBtn.titleLabel.textColor = [UIColor whiteColor];
-    
-    _emptyLabel.font = kPrinterCellSubtextFont;
-    _emptyLabel.textColor = [UIColor blackColor];
-    _emptyLabel.alpha = _empty;
+    _printTestBtn.titleLabel.textColor =
+    _printBtn.titleLabel.textColor = [UIColor whiteColor];
     
     _helpLabel.font = kHelpFont;
     _helpLabel.textColor = [UIColor blackColor];
@@ -99,10 +100,78 @@
     _helpLabel.numberOfLines = 0;
     [self updateHelpLabel:_printerStatus];
     
+    _printableTextField.delegate = self;
+    
     // Update UI
     if(_searching) {
         self.searching = YES;
+    } else {
+        self.searching = NO;
     }
+    
+    [self setSearching:self.searching];
+    
+    _activeField = nil;
+    [self registerForKeyboardNotifications];
+}
+
+- (void)registerForKeyboardNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWasShown:)
+                                                 name:UIKeyboardDidShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillBeHidden:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+    
+}
+
+- (void)keyboardWasShown:(NSNotification*)notification
+{
+    NSDictionary* info = [notification userInfo];
+    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height, 0.0);
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+    
+    // If active text field is hidden by keyboard, scroll it so it's visible
+    // Your app might not need or want this behavior.
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= kbSize.height;
+    if (!CGRectContainsPoint(aRect, _activeField.frame.origin) ) {
+        [self.scrollView scrollRectToVisible:_activeField.frame animated:YES];
+    }
+    
+    CGRect bkgndRect = _activeField.superview.frame;
+    bkgndRect.size.height += kbSize.height;
+    [_activeField.superview setFrame:bkgndRect];
+    [_scrollView setContentOffset:CGPointMake(0.0, _activeField.frame.origin.y-kbSize.height) animated:YES];
+}
+
+- (void)keyboardWillBeHidden:(NSNotification*)notification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    _scrollView.contentInset = contentInsets;
+    _scrollView.scrollIndicatorInsets = contentInsets;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    _activeField = textField;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    _activeField = nil;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
@@ -145,6 +214,7 @@
     }
     
     _searchBtn.enabled = !searching;
+    searching ? [_spinner setHidden:NO] : [_spinner setHidden:YES];
     searching ? [_spinner startAnimating] : [_spinner stopAnimating];
     [UIView animateWithDuration:kLoadingAnimationDuration animations:^{
         _printersTableView.alpha = !searching;
@@ -156,7 +226,6 @@
     _empty = empty;
     
     [UIView animateWithDuration:kLoadingAnimationDuration animations:^{
-        _emptyLabel.alpha = _empty;
         _printersTableView.alpha = !_empty;
         
         if(_empty && [_spinner isAnimating]) {
@@ -219,7 +288,7 @@
         [self.printersTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.printersTableView endUpdates];
         
-        [self updatePrintTestBtn:status];
+//        [self updatePrintTestBtn:status];
         [self updateHelpLabel:status];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -251,6 +320,7 @@
         }
         _helpLabel.text = [NSString stringWithFormat:@"%d printer%@ found. Select the printer to connect.", [_printers count], pluralChar];
     }
+    NSLog(@"Help label says -> %@", _helpLabel.text);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -302,7 +372,6 @@
     self.connectedPrinter = _connectedPrinter == printer ? nil : printer;
     [self updatePrintTestBtn:_connectedPrinter.status];
 }
-
 
 - (void)addDelegate:(id<PrinterConnectivityDelegate>)delegate
 {
