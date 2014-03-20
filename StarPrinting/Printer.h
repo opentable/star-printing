@@ -1,8 +1,9 @@
 //
 //  Printer.h
-//  Quickcue
+//  StarPrinting
 //
 //  Created by Matthew Newberry on 4/10/13.
+//  OpenTable
 
 #import <Foundation/Foundation.h>
 #import <StarIO/SMPort.h>
@@ -39,10 +40,7 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 @class PortInfo, Printable;
 @interface Printer : NSObject
 
-@property (nonatomic, assign) BOOL debug;
-
-@property (nonatomic, strong) NSMutableArray *jobs;
-@property (nonatomic, strong) NSOperationQueue *queue;
+@property (nonatomic, assign) BOOL debugLogging;
 
 @property (nonatomic, weak) id<PrinterDelegate> delegate;
 @property (nonatomic, readwrite) PrinterStatus status;
@@ -66,20 +64,20 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 + (Printer *)connectedPrinter;
 + (void)search:(PrinterSearchBlock)block;
 + (Class)portClass;
++ (NSString *)stringForStatus:(PrinterStatus)status;
 
 - (void)connect:(PrinterResultBlock)result;
 - (void)disconnect;
 - (void)printTest;
 
-// Only to be used by unit tests
+// Should only be called by unit tests
+@property (nonatomic, strong) NSMutableArray *jobs;
+@property (nonatomic, strong) NSOperationQueue *queue;
 - (void)startHeartbeat;
 - (void)stopHeartbeat;
 
 // This should usually not be called directly, rather objects should
 // conform to the `Printable` protocol
 - (void)print:(PrintData *)data;
-
-// Convience methods
-+ (NSString *)stringForStatus:(PrinterStatus)status;
 
 @end

@@ -1,9 +1,9 @@
 //
 //  PrintParser.m
-//  Quickcue
+//  StarPrinting
 //
 //  Created by Matthew Newberry on 4/11/13.
-//  Copyright (c) 2013 Quickcue. All rights reserved.
+//  OpenTable
 //
 
 #import "PrintParser.h"
@@ -40,6 +40,8 @@ typedef enum PrintFormatElementType
 
 @implementation PrintParser
 
+#pragma mark - Parsing
+
 - (NSData *)parse:(NSData *)data
 {
     self.formatter = [PrintTextFormatter formatter];
@@ -52,6 +54,7 @@ typedef enum PrintFormatElementType
 }
 
 #pragma mark - NSXMLParserDelegate
+
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
 {
     PrintFormatElementType elementType =

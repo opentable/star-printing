@@ -1,8 +1,10 @@
 //
 //  NSObject+Printable.h
-//  Quickcue
+//  StarPrinting
 //
 //  Created by Matthew Newberry on 4/11/13.
+//  OpenTable
+//
 
 #import <Foundation/Foundation.h>
 #import "Printer.h"
@@ -11,6 +13,7 @@
 @protocol Printable <NSObject>
 
 @required
+
 - (PrintData *)printedFormat;
 
 @end

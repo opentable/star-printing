@@ -37,16 +37,11 @@
                BlueprintName = "StarPrintingTests"
                ReferencedContainer = "container:StarPrinting.xcodeproj">
             </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "57ECCFED18D8ADCD00EE51FF"
-               BuildableName = "StarPrintingExampleTests.xctest"
-               BlueprintName = "StarPrintingExampleTests"
-               ReferencedContainer = "container:StarPrinting.xcodeproj">
-            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "SenAsyncTestCase">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

@@ -1,9 +1,9 @@
 //
 //  PrintTextFormatter.h
-//  Quickcue
+//  StarPrinting
 //
 //  Created by Matthew Newberry on 4/11/13.
-//  Copyright (c) 2013 Quickcue. All rights reserved.
+//  OpenTable
 //
 
 #import <Foundation/Foundation.h>

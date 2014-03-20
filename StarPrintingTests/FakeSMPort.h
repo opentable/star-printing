@@ -1,9 +1,9 @@
 //
 //  FakeSMPort.h
-//  Quickcue
+//  StarPrintingExample
 //
 //  Created by Matthew Newberry on 2/19/14.
-//  Copyright (c) 2014 quickcue. All rights reserved.
+//  OpenTable
 //
 
 #import <Foundation/Foundation.h>

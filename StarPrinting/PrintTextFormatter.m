@@ -1,9 +1,9 @@
 //
 //  PrintTextFormatter.m
-//  Quickcue
+//  StarPrinting
 //
 //  Created by Matthew Newberry on 4/11/13.
-//  Copyright (c) 2013 Quickcue. All rights reserved.
+//  OpenTable
 //
 
 #import "PrintTextFormatter.h"
@@ -15,6 +15,8 @@
 @end
 
 @implementation PrintTextFormatter
+
+#pragma mark - Initialization
 
 + (PrintTextFormatter *)formatter
 {
@@ -32,17 +34,8 @@
     return self;
 }
 
-- (NSData *)formattedData
-{
-    return _commands;
-}
-
-- (void)add:(NSString *)text
-{
-    [_commands appendData:[text dataUsingEncoding:NSASCIIStringEncoding]];
-}
-
 #pragma mark - Commands
+
 - (void)tab
 {
     [self add:kPrinterCMD_Tab];
@@ -59,6 +52,7 @@
 }
 
 #pragma mark - Text Formatting
+
 - (void)bold:(NSString *)text next:(PrintTextFormatterBlock)block
 {
     [self add:kPrinterCMD_StartBold];
@@ -116,6 +110,7 @@
 
 
 #pragma mark - Text Alignment
+
 - (void)alignLeft:(PrintTextFormatterBlock)block
 {
     [self add:kPrinterCMD_AlignLeft];
@@ -133,9 +128,22 @@
 
 
 #pragma mark - Barcodes
+
 - (void)barcode:(NSString *)text type:(PrinterBarcodeType)type
 {
     [self add:kPrinterCMD_StartBarcode];
+}
+
+#pragma mark - Helpers
+
+- (NSData *)formattedData
+{
+    return _commands;
+}
+
+- (void)add:(NSString *)text
+{
+    [_commands appendData:[text dataUsingEncoding:NSASCIIStringEncoding]];
 }
 
 @end

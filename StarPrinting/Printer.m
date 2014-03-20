@@ -1,15 +1,17 @@
 //
 //  Printer.m
-//  Quickcue
+//  StarPrinting
 //
 //  Created by Matthew Newberry on 4/10/13.
+//  OpenTable
 
 #import "Printer.h"
-#import <StarIO/Port.h>
 #import "PrintCommands.h"
 #import "PrintParser.h"
+#import <StarIO/Port.h>
 #import <objc/runtime.h>
 
+#define DEBUG_LOGGING           1
 #define DEBUG_PREFIX            @"Printer:"
 
 #define kHeartbeatInterval      5.f
@@ -36,6 +38,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 @implementation Printer
 
 #pragma mark - Class Methods
+
 + (Printer *)printerFromPort:(PortInfo *)port
 {
     Printer *printer = [[Printer alloc] init];
@@ -139,17 +142,17 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     }
 }
 
-#pragma mark - Initialization
+#pragma mark - Initialization & Coding
+
 - (void)initialize
 {
     self.jobs = [NSMutableArray array];
     self.queue = [[NSOperationQueue alloc] init];
     self.queue.maxConcurrentOperationCount = 1;
     self.previousOnlineStatus = PrinterStatusDisconnected;
-    self.debug = NO;
+    self.debugLogging = DEBUG_LOGGING;
 }
 
-#pragma mark - Coding
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
     [encoder encodeObject:self.modelName forKey:@"modelName"];
@@ -172,7 +175,8 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     return self;
 }
 
-#pragma mark - Port
+#pragma mark - Port Handling
+
 - (BOOL)openPort
 {
     BOOL error = NO;
@@ -200,6 +204,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 
 #pragma mark - Job Handling
+
 - (void)addJob:(PrinterJobBlock)job
 {
     if([self isHeartbeatJob:job] && [self.jobs count] > 0) return;
@@ -224,7 +229,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         for(int i = 0; i < 20; i++) {
             portConnected = [self openPort];
             if(portConnected) break;
-            if(self.debug) NSLog(@"Retrying to open port!");
+            if(self.debugLogging) NSLog(@"Retrying to open port!");
             usleep(1000 * 333);
         }
         
@@ -268,7 +273,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             
             if([self.jobs count] == 0) return;
            
-            if(self.debug) NSLog(@"***** RETRYING JOB ******");
+            if(self.debugLogging) NSLog(@"***** RETRYING JOB ******");
             
             PrinterJobBlock job = self.jobs[0];
             [self.jobs removeObjectAtIndex:0];
@@ -280,6 +285,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 #pragma mark - Connection
+
 - (void)connect:(PrinterResultBlock)result
 {
     [self log:@"Attempting to connect"];
@@ -332,6 +338,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 #pragma mark - Printing
+
 - (void)printTest
 {
     if(![Printer connectedPrinter]) return;
@@ -439,6 +446,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 #pragma mark - Heartbeat
+
 - (void)heartbeat
 {
     PrinterJobBlock heartbeatJob = ^(BOOL portConnected) {
@@ -467,6 +475,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 #pragma mark - Status
+
 - (void)updateStatus
 {
     PrinterStatus status = PrinterStatusNoStatus;
@@ -515,6 +524,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 #pragma mark - Properties
+
 - (NSString *)description
 {
     NSString *desc = [NSString stringWithFormat:@"<Printer: %p { name:%@ mac:%@ model:%@ portName:%@ status:%@}>", self, self.name, self.macAddress, self.modelName, self.portName, [Printer stringForStatus:self.status]];
@@ -552,16 +562,17 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 #pragma mark - Helpers
+
 - (void)log:(NSString *)message
 {
-    if(self.debug) {
+    if(self.debugLogging) {
         NSLog(@"%@", [NSString stringWithFormat:@"%@ %@ -> %@", DEBUG_PREFIX, self, message]);
     }
 }
 
 - (void)printJobCount:(NSString *)message
 {
-    if(self.debug) NSLog(@"%@ -> Job Count = %i", message, [self.jobs count]);
+    if(self.debugLogging) NSLog(@"%@ -> Job Count = %i", message, [self.jobs count]);
 }
 
 - (BOOL)isConnectJob:(PrinterJobBlock)job

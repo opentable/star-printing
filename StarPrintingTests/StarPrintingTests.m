@@ -1,15 +1,15 @@
 //
 //  PrinterTests.m
-//  Quickcue
+//  StarPrintingExample
 //
 //  Created by Matthew Newberry on 2/20/14.
-//  Copyright (c) 2014 quickcue. All rights reserved.
+//  OpenTable
 //
 
 #import <SenTestingKit/SenTestingKit.h>
 
-#import "FakeSMPort.h"
 #import "Printer.h"
+#import "FakeSMPort.h"
 #import "FakePrinterManager.h"
 #import "SenAsyncTestCase.h"
 
@@ -33,7 +33,6 @@
 
 - (void)tearDown
 {
-    // Put teardown code here; it will be run once, after the last test case.
     [super tearDown];
 }
 
