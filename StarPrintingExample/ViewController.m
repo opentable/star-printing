@@ -17,7 +17,6 @@
 #define kBtnFont                    [UIFont fontWithName:@"ProximaNova-Semibold" size:14.f];
 #define kHelpFont                   [UIFont fontWithName:@"ProximaNova-Regular" size:12.f];
 #define kPrinterCellHeight          44.f
-#define kPrinterCellSubtextFont     [UIFont fontWithName:@"ProximaNova-Regular" size:15]
 
 #define kPrinterNotAvailableMessage     @"No printers found"
 #define kPrinterConnectedMessage        @"Connected Printer"
@@ -32,7 +31,7 @@
 @property (nonatomic, weak) IBOutlet UIButton *searchBtn;
 @property (nonatomic, weak) IBOutlet UIButton *printTestBtn;
 @property (nonatomic, weak) IBOutlet UITableView *printersTableView;
-@property (nonatomic, strong) IBOutlet UITextField *printableTextField;
+@property (nonatomic, weak) IBOutlet UITextField *printableTextField;
 @property (nonatomic, weak) IBOutlet UIButton *printBtn;
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *spinner;
@@ -49,7 +48,7 @@
 
 - (IBAction)search;
 - (IBAction)printTest;
-- (IBAction)print;
+- (IBAction)printTextField;
 
 @end
 
@@ -115,6 +114,13 @@
     [self registerForKeyboardNotifications];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Text Field & Keyboard
+
 - (void)registerForKeyboardNotifications
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -136,8 +142,6 @@
     _scrollView.contentInset = contentInsets;
     _scrollView.scrollIndicatorInsets = contentInsets;
     
-    // If active text field is hidden by keyboard, scroll it so it's visible
-    // Your app might not need or want this behavior.
     CGRect aRect = self.view.frame;
     aRect.size.height -= kbSize.height;
     if (!CGRectContainsPoint(aRect, _activeField.frame.origin) ) {
@@ -174,33 +178,7 @@
     return YES;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)setConnectedPrinter:(Printer *)connectedPrinter
-{
-    if(connectedPrinter == nil && _connectedPrinter) {
-        if([_connectedPrinter isReadyToPrint]) {
-            [_connectedPrinter disconnect];
-        }
-        _connectedPrinter = nil;
-        [self notifyDelegates];
-        
-    } else if(connectedPrinter) {
-        _connectedPrinter = connectedPrinter;
-        _connectedPrinter.delegate = self;
-        [_connectedPrinter connect:^(BOOL success) {
-            if(!success){
-                self.connectedPrinter = nil;
-            }
-            
-            [self notifyDelegates];
-        }];
-    }
-}
+#pragma mark - Search
 
 - (void)setSearching:(BOOL)searching
 {
@@ -265,6 +243,30 @@
     }];
 }
 
+#pragma mark - Printer
+
+- (void)setConnectedPrinter:(Printer *)connectedPrinter
+{
+    if(connectedPrinter == nil && _connectedPrinter) {
+        if([_connectedPrinter isReadyToPrint]) {
+            [_connectedPrinter disconnect];
+        }
+        _connectedPrinter = nil;
+        [self notifyDelegates];
+        
+    } else if(connectedPrinter) {
+        _connectedPrinter = connectedPrinter;
+        _connectedPrinter.delegate = self;
+        [_connectedPrinter connect:^(BOOL success) {
+            if(!success){
+                self.connectedPrinter = nil;
+            }
+            
+            [self notifyDelegates];
+        }];
+    }
+}
+
 - (void)printTest
 {
     Printer *printer = [Printer connectedPrinter];
@@ -273,9 +275,14 @@
     }
 }
 
-- (void)print
+- (NSData *)printedFormat
 {
-    
+    return nil;
+}
+
+- (void)printTextField
+{
+    [self print];
 }
 
 - (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status
@@ -300,28 +307,7 @@
     }
 }
 
-- (void)updatePrintTestBtn:(PrinterStatus)status
-{
-    _printTestBtn.enabled = status == PrinterStatusConnected || status == PrinterStatusLowPaper;
-}
-
-- (void)updateHelpLabel:(PrinterStatus)status
-{
-    if([_printers count] == 0) {
-        _helpLabel.text = @"";
-    } else if(status == PrinterStatusConnecting) {
-        _helpLabel.text = kPrinterConnectingMessage;
-    } else if(status == PrinterStatusConnected || status == PrinterStatusLowPaper) {
-        _helpLabel.text = kPrinterConnectedMessage;
-    } else {
-        NSString *pluralChar = @"s";
-        if([_printers count] == 1) {
-            pluralChar = @"";
-        }
-        _helpLabel.text = [NSString stringWithFormat:@"%d printer%@ found. Select the printer to connect.", [_printers count], pluralChar];
-    }
-    NSLog(@"Help label says -> %@", _helpLabel.text);
-}
+#pragma mark - TableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -337,9 +323,10 @@
 {
     Printer *printer = [_printers objectAtIndex:indexPath.row];
     NSString *message = [[self class] statusMessageForPrinterStatus:printer.status];
-    CGSize size = [message sizeWithFont:kPrinterCellSubtextFont constrainedToSize:CGSizeMake(_printersTableView.frame.size.width - 35.f, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
     
-    return printer.hasError ? kPrinterCellHeight + size.height : kPrinterCellHeight;
+    CGSize size = [message boundingRectWithSize:CGSizeMake(_printersTableView.frame.size.width - 35.f, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:nil context:nil].size;
+    
+    return kPrinterCellHeight + size.height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -370,8 +357,10 @@
         [printer disconnect];
     }
     self.connectedPrinter = _connectedPrinter == printer ? nil : printer;
-    [self updatePrintTestBtn:_connectedPrinter.status];
+//    [self updatePrintTestBtn:_connectedPrinter.status];
 }
+
+#pragma mark - Delegates
 
 - (void)addDelegate:(id<PrinterConnectivityDelegate>)delegate
 {
@@ -388,6 +377,31 @@
     for (id <PrinterConnectivityDelegate> d in _delegates) {
         [d connectedPrinterDidChangeTo:self.connectedPrinter];
     }
+}
+
+#pragma mark - Helpers
+
+- (void)updatePrintTestBtn:(PrinterStatus)status
+{
+    _printTestBtn.enabled = status == PrinterStatusConnected || status == PrinterStatusLowPaper;
+}
+
+- (void)updateHelpLabel:(PrinterStatus)status
+{
+    if([_printers count] == 0) {
+        _helpLabel.text = @"";
+    } else if(status == PrinterStatusConnecting) {
+        _helpLabel.text = kPrinterConnectingMessage;
+    } else if(status == PrinterStatusConnected || status == PrinterStatusLowPaper) {
+        _helpLabel.text = kPrinterConnectedMessage;
+    } else {
+        NSString *pluralChar = @"s";
+        if([_printers count] == 1) {
+            pluralChar = @"";
+        }
+        _helpLabel.text = [NSString stringWithFormat:@"%d printer%@ found. Select the printer to connect.", [_printers count], pluralChar];
+    }
+    NSLog(@"Help label says -> %@", _helpLabel.text);
 }
 
 + (NSString *)iconForPrinterStatus:(PrinterStatus)status

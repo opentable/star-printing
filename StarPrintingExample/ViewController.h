@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <StarPrinting/Printer.h>
 #import "PrinterCell.h"
+#import <StarPrinting/Printable.h>
 
 @protocol PrinterConnectivityDelegate <NSObject>
 
@@ -17,7 +18,7 @@
 @end
 
 @class Printer,GlobalNavigationViewController;
-@interface ViewController : UIViewController <PrinterDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
+@interface ViewController : UIViewController <Printable, PrinterDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate>
 
 - (void)addDelegate:(id<PrinterConnectivityDelegate>)delegate;
 - (void)removeDelegate:(id<PrinterConnectivityDelegate>)delegate;

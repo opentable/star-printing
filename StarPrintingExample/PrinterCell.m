@@ -10,15 +10,13 @@
 #import "Printer.h"
 #import "ViewController.h"
 
-#define kTitleFont          [UIFont fontWithName:@"ProximaNova-Semibold" size:15]
-#define kIconLabelFont      [UIFont fontWithName:@"Quickcue-Regular" size:15]
-#define kIconLabelWidth     30.f
+#define kTitleFont          [UIFont fontWithName:@"Arial" size:12]
+#define kSpinnerWidth       30.f
 #define kDefaultLabelHeight 36.f
 
 @interface PrinterCell ()
 
 @property (nonatomic, strong) UILabel *portName;
-@property (nonatomic, strong) UILabel *iconLabel;
 @property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UIActivityIndicatorView *spinner;
 
@@ -42,18 +40,13 @@
         _portName.textColor =
         self.textLabel.textColor = [UIColor blackColor];
         
-        self.iconLabel = [[UILabel alloc] init];
-        _iconLabel.font = kIconLabelFont;
-        _iconLabel.textAlignment = NSTextAlignmentCenter;
-        
         self.errorLabel = [[UILabel alloc] init];
         _errorLabel.font = kPrinterCellSubtextFont;
         _errorLabel.numberOfLines = 0;
-        _errorLabel.textColor = [UIColor blackColor];
+        _errorLabel.textColor = [UIColor darkGrayColor];
         
         [self.contentView addSubview:_spinner];
         [self.contentView addSubview:_errorLabel];
-        [self.contentView addSubview:_iconLabel];
         [self.contentView addSubview:_portName];
     }
     return self;
@@ -63,26 +56,82 @@
 {
     [super layoutSubviews];
     
-    CGFloat labelWidth = ceilf((self.contentView.frame.size.width - kIconLabelWidth) / 2);
+    CGFloat labelWidth = ceilf((self.contentView.frame.size.width) / 2);
     
-//    self.textLabel.width =
-//    _portName.width = labelWidth;
-//    
-//    self.textLabel.height =
-//    _portName.height = kDefaultLabelHeight;
-//    
-//    self.textLabel.left = kIconLabelWidth;
-//    _portName.left = self.textLabel.right;
-//    
-//    _iconLabel.size = CGSizeMake(kIconLabelWidth, self.textLabel.height);
+    [self setWidth:labelWidth forView:self.textLabel];
+    [self setWidth:labelWidth forView:_portName];
     
-//    CGSize size = [_errorLabel.text sizeWithFont:_errorLabel.font constrainedToSize:CGSizeMake(self.contentView.width - _errorLabel.left, MAXFLOAT) lineBreakMode:NSLineBreakByWordWrapping];
-//    
-//    _errorLabel.size = size;
-//    _errorLabel.top = self.textLabel.bottom;
-//    _errorLabel.left = self.textLabel.left;
+    [self setHeight:kDefaultLabelHeight forView:self.textLabel];
+    [self setHeight:kDefaultLabelHeight forView:_portName];
     
-    _spinner.frame = _iconLabel.frame;
+    [self setLeft:kSpinnerWidth forView:self.textLabel];
+    [self setLeft:[self rightOfView:self.textLabel] forView:_portName];
+    
+    CGSize size = [_errorLabel.text boundingRectWithSize:CGSizeMake(self.contentView.frame.size.width - [self leftOfView:_errorLabel], MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:nil context:nil].size;
+
+    [self setWidth:size.width forView:_errorLabel];
+    [self setHeight:size.height forView:_errorLabel];
+    [self setTop:[self bottomOfView:self.textLabel] forView:_errorLabel];
+    [self setLeft:kSpinnerWidth forView:_errorLabel];
+    
+    [self setWidth:kSpinnerWidth forView:_spinner];
+    [self setHeight:[self heightOfView:self.textLabel] forView:_spinner];
+}
+
+- (CGFloat)widthOfView:(UIView *)view
+{
+    return view.frame.size.width;
+}
+
+- (CGFloat)heightOfView:(UIView *)view
+{
+    return view.frame.size.height;
+}
+
+- (CGFloat)leftOfView:(UIView *)view
+{
+    return view.frame.origin.x;
+}
+
+- (CGFloat)rightOfView:(UIView *)view
+{
+    return [self leftOfView:view] + [self widthOfView:view];
+}
+
+- (CGFloat)topOfView:(UIView *)view
+{
+    return view.frame.origin.y;
+}
+
+- (CGFloat)bottomOfView:(UIView *)view
+{
+    return [self topOfView:view] + [self heightOfView:view];
+}
+
+- (void)setWidth:(CGFloat)width forView:(UIView *)view
+{
+    view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, width, view.frame.size.height);
+}
+
+- (void)setHeight:(CGFloat)height forView:(UIView *)view
+{
+    view.frame = CGRectMake(view.frame.origin.x, view.frame.origin.y, view.frame.size.width, height);
+}
+
+- (void)setLeft:(CGFloat)left forView:(UIView *)view
+{
+    view.frame = CGRectMake(left, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
+}
+
+- (void)setTop:(CGFloat)top forView:(UIView *)view
+{
+    view.frame = CGRectMake(view.frame.origin.x, top, view.frame.size.width, view.frame.size.height);
+}
+
+- (void)setColorScheme:(UIColor *)color
+{
+    self.textLabel.textColor =
+    _portName.textColor = color;
 }
 
 - (void)setPrinter:(Printer *)printer
@@ -92,31 +141,24 @@
     self.textLabel.text = printer.name;
     self.portName.text = printer.portName;
     
-    _iconLabel.text = [ViewController iconForPrinterStatus:printer.status];
-    
     if(printer.status == PrinterStatusConnecting) {
-        _iconLabel.hidden = YES;
         [_spinner startAnimating];
     } else {
-        _iconLabel.hidden = NO;
         [_spinner stopAnimating];
     }
     
     if(printer.status == PrinterStatusConnected) {
-        _iconLabel.textColor = [UIColor blueColor];
-    } else if(printer.status == PrinterStatusConnectionError ||
-              printer.status == PrinterStatusLostConnectionError ||
-              printer.status == PrinterStatusUnknownError ||
-              printer.status == PrinterStatusPrintError ||
-              printer.status == PrinterStatusOutOfPaper ||
-              printer.status == PrinterStatusCoverOpen) {
-        _iconLabel.textColor = [UIColor redColor];
+        [self setColorScheme:[UIColor colorWithRed:0.2f green:0.6f blue:0.2f alpha:1.0f]];
     } else if(printer.status == PrinterStatusLowPaper) {
-        _iconLabel.textColor = [UIColor orangeColor];
+        [self setColorScheme:[UIColor colorWithRed:0.4f green:0.4f blue:0.2f alpha:1.0f]];
+    } else if(printer.hasError) {
+        [self setColorScheme:[UIColor colorWithRed:0.6f green:0.2f blue:0.2f alpha:1.0f]];
+    } else {
+        [self setColorScheme:[UIColor colorWithRed:0.f green:0.f blue:0.f alpha:1.0f]];
     }
     
     NSLog(@"%i => %@", printer.hasError, printer);
-    _errorLabel.text = printer.hasError ? [ViewController statusMessageForPrinterStatus:printer.status] : @"";
+    _errorLabel.text = [ViewController statusMessageForPrinterStatus:printer.status];
 }
 
 @end

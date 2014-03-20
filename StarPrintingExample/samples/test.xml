@@ -1,22 +1,25 @@
 <print>
     
     <dl />
-    <left />
-    <center>
     
+    <center />
     <large>PRINT TEST</large>
-    <text>\nPrinter {{printerName}} - {{printerStatus}}</text>
+    <text>\nPrinter {{printerName}} - {{printerStatus}}\n\n</text>
     
-    <text align="left">Left Aligned Text\n</text>
-    <text align="center">Center Aligned Text\n</text>
-    <text align="right">Right Aligned Text\n</text>
+    <left />
+    <text>Left Aligned Text\n</text>
     
-    <text align="left"><b>Bold Text</b></text>
-    <text><u>Underline Text</u></text>
+    <center />
+    <text>Center Aligned Text\n</text>
+    
+    <right />
+    <text>Right Aligned Text\n</text>
+    
+    <left />
+    <text><ul>Underline Text\n</ul></text>
+    <text><b>Bold Text\n</b></text>
     <text><upl>Upperline Text</upl></text>
+
+    <dl />
     
-    <nl />
-    <nl />
-    <nl />
-    <nl />
 </print>
