@@ -1,0 +1,9 @@
+<print>
+    
+    <center />
+    <text><b>You wrote the following text:\n\n</b></text>
+    <text>"{{userText}}"</text>
+    <nl />
+    <nl />
+    
+</print>

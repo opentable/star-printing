@@ -5,7 +5,6 @@
 //  Created by Matthew Newberry on 4/11/13.
 
 #import "Printable.h"
-#import "Printer.h"
 
 @implementation NSObject (Printable)
 

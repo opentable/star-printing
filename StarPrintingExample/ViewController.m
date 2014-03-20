@@ -7,22 +7,18 @@
 //
 
 #import "ViewController.h"
+#import <StarPrinting/PrintParser.h>
 
 @interface ViewController ()
 
 #define kPadding                    10.f
 #define kLoadingAnimationDuration   0.25f
 #define kBtnSize                    CGSizeMake(80,30)
-#define kPrinterLabelFont           [UIFont fontWithName:@"ProximaNova-Semibold" size:19.f]
-#define kBtnFont                    [UIFont fontWithName:@"ProximaNova-Semibold" size:14.f];
-#define kHelpFont                   [UIFont fontWithName:@"ProximaNova-Regular" size:12.f];
+#define kPrinterLabelFont           [UIFont fontWithName:@"Arial" size:19.f]
+#define kTextFieldFont              [UIFont fontWithName:@"Arial" size:15.f]
+#define kBtnFont                    [UIFont fontWithName:@"Arial" size:14.f]
+#define kHelpFont                   [UIFont fontWithName:@"Arial" size:12.f]
 #define kPrinterCellHeight          44.f
-
-#define kPrinterNotAvailableMessage     @"No printers found"
-#define kPrinterConnectedMessage        @"Connected Printer"
-#define kPrinterConnectingMessage       @"Connecting"
-#define kPrinterSearchingMessage        @"Searching"
-#define kPrinterAvailableMessage        @"Printers Available"
 
 @property (nonatomic, weak) UITextField *activeField;
 
@@ -32,10 +28,11 @@
 @property (nonatomic, weak) IBOutlet UIButton *printTestBtn;
 @property (nonatomic, weak) IBOutlet UITableView *printersTableView;
 @property (nonatomic, weak) IBOutlet UITextField *printableTextField;
+@property (nonatomic, weak) IBOutlet UILabel *textFieldLabel;
 @property (nonatomic, weak) IBOutlet UIButton *printBtn;
+@property (nonatomic, weak) IBOutlet UILabel *emptyLabel;
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *spinner;
-@property (nonatomic, weak) IBOutlet UILabel *helpLabel;
 
 @property (nonatomic, assign) BOOL searching;
 @property (nonatomic, assign) BOOL empty;
@@ -71,6 +68,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _scrollView.delaysContentTouches = NO;
 
     self.printersTableView.tableFooterView = [[UIView alloc] init];
     
@@ -80,26 +79,19 @@
     _titleLabel.textColor = [UIColor blackColor];
     [_titleLabel sizeToFit];
     
-    _searchBtn.backgroundColor =
-    _printTestBtn.backgroundColor =
-    _printBtn.backgroundColor = [UIColor darkGrayColor];
+    _textFieldLabel.font = kTextFieldFont;
     
-//    [self updatePrintTestBtn:_printerStatus];
+    [self updateButtonStates:_printerStatus];
     
-    _searchBtn.titleLabel.font =
-    _printTestBtn.titleLabel.font = kBtnFont;
-    
-    _searchBtn.titleLabel.textColor =
-    _printTestBtn.titleLabel.textColor =
-    _printBtn.titleLabel.textColor = [UIColor whiteColor];
-    
-    _helpLabel.font = kHelpFont;
-    _helpLabel.textColor = [UIColor blackColor];
-    _helpLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    _helpLabel.numberOfLines = 0;
-    [self updateHelpLabel:_printerStatus];
-    
+    _emptyLabel.font = kTextFieldFont;
+    _emptyLabel.textColor = [UIColor lightGrayColor];
+    _emptyLabel.alpha = _empty;
+
     _printableTextField.delegate = self;
+    
+    [self styleButton:_printTestBtn];
+    [self styleButton:_searchBtn];
+    [self styleButton:_printBtn];
     
     // Update UI
     if(_searching) {
@@ -112,6 +104,29 @@
     
     _activeField = nil;
     [self registerForKeyboardNotifications];
+}
+
+- (void)styleButton:(UIButton *)btn
+{
+    btn.backgroundColor = [UIColor darkGrayColor];
+    btn.titleLabel.font = kBtnFont;
+    btn.titleLabel.textColor = [UIColor whiteColor];
+    [btn setBackgroundImage:[self imageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
+    [btn setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+}
+
+- (UIImage *)imageWithColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 - (void)didReceiveMemoryWarning
@@ -173,6 +188,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [self printTextField];
     [textField resignFirstResponder];
     
     return YES;
@@ -186,9 +202,6 @@
     
     if(searching) {
         self.empty = NO;
-        _helpLabel.text = kPrinterSearchingMessage;
-    } else {
-        [self updateHelpLabel:_printerStatus];
     }
     
     _searchBtn.enabled = !searching;
@@ -205,7 +218,8 @@
     
     [UIView animateWithDuration:kLoadingAnimationDuration animations:^{
         _printersTableView.alpha = !_empty;
-        
+        _emptyLabel.alpha = _empty;
+       
         if(_empty && [_spinner isAnimating]) {
             [_spinner stopAnimating];
         }
@@ -277,11 +291,26 @@
 
 - (NSData *)printedFormat
 {
-    return nil;
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"example" ofType:@"xml"];
+    NSData *contents = [[NSFileManager defaultManager] contentsAtPath:path];
+    NSMutableString *s = [[NSMutableString alloc] initWithData:contents encoding:NSUTF8StringEncoding];
+    
+    NSDictionary *data = @{
+                           @"{{userText}}" : [_printableTextField.text  isEqual: @""] ? @"(blank)" : _printableTextField.text
+                           };
+    
+    [data enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+        [s replaceOccurrencesOfString:key withString:value options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+    }];
+    
+    PrintParser *parser = [[PrintParser alloc] init];
+    NSData *formatted = [parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]];
+    return formatted;
 }
 
 - (void)printTextField
 {
+    [_printableTextField resignFirstResponder];
     [self print];
 }
 
@@ -295,8 +324,7 @@
         [self.printersTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self.printersTableView endUpdates];
         
-//        [self updatePrintTestBtn:status];
-        [self updateHelpLabel:status];
+        [self updateButtonStates:status];
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSData *encoded = [NSKeyedArchiver archivedDataWithRootObject:self.connectedPrinter];
@@ -357,7 +385,7 @@
         [printer disconnect];
     }
     self.connectedPrinter = _connectedPrinter == printer ? nil : printer;
-//    [self updatePrintTestBtn:_connectedPrinter.status];
+    [self updateButtonStates:_connectedPrinter.status];
 }
 
 #pragma mark - Delegates
@@ -381,27 +409,9 @@
 
 #pragma mark - Helpers
 
-- (void)updatePrintTestBtn:(PrinterStatus)status
+- (void)updateButtonStates:(PrinterStatus)status
 {
-    _printTestBtn.enabled = status == PrinterStatusConnected || status == PrinterStatusLowPaper;
-}
-
-- (void)updateHelpLabel:(PrinterStatus)status
-{
-    if([_printers count] == 0) {
-        _helpLabel.text = @"";
-    } else if(status == PrinterStatusConnecting) {
-        _helpLabel.text = kPrinterConnectingMessage;
-    } else if(status == PrinterStatusConnected || status == PrinterStatusLowPaper) {
-        _helpLabel.text = kPrinterConnectedMessage;
-    } else {
-        NSString *pluralChar = @"s";
-        if([_printers count] == 1) {
-            pluralChar = @"";
-        }
-        _helpLabel.text = [NSString stringWithFormat:@"%d printer%@ found. Select the printer to connect.", [_printers count], pluralChar];
-    }
-    NSLog(@"Help label says -> %@", _helpLabel.text);
+    _printTestBtn.enabled = _printBtn.enabled = status == PrinterStatusConnected || status == PrinterStatusLowPaper;
 }
 
 + (NSString *)iconForPrinterStatus:(PrinterStatus)status
