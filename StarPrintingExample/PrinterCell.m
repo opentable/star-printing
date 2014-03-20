@@ -10,7 +10,8 @@
 #import "Printer.h"
 #import "ViewController.h"
 
-#define kTitleFont          [UIFont fontWithName:@"Arial" size:12]
+#define kTitleFont                     [UIFont fontWithName:@"Arial" size:12]
+#define kPrinterCellSubtextFont        [UIFont fontWithName:@"Arial" size:10]
 #define kSpinnerWidth       30.f
 #define kDefaultLabelHeight 36.f
 
@@ -23,6 +24,8 @@
 @end
 
 @implementation PrinterCell
+
+#pragma mark - Initialization
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -78,6 +81,37 @@
     [self setHeight:[self heightOfView:self.textLabel] forView:_spinner];
 }
 
+#pragma mark - Printer
+
+- (void)setPrinter:(Printer *)printer
+{
+    _printer = printer;
+    
+    self.textLabel.text = printer.name;
+    self.portName.text = printer.portName;
+    
+    if(printer.status == PrinterStatusConnecting) {
+        [_spinner startAnimating];
+    } else {
+        [_spinner stopAnimating];
+    }
+    
+    if(printer.status == PrinterStatusConnected) {
+        [self setColorScheme:[UIColor colorWithRed:0.2f green:0.6f blue:0.2f alpha:1.0f]];
+    } else if(printer.status == PrinterStatusLowPaper) {
+        [self setColorScheme:[UIColor colorWithRed:0.4f green:0.4f blue:0.2f alpha:1.0f]];
+    } else if(printer.hasError) {
+        [self setColorScheme:[UIColor colorWithRed:0.6f green:0.2f blue:0.2f alpha:1.0f]];
+    } else {
+        [self setColorScheme:[UIColor colorWithRed:0.f green:0.f blue:0.f alpha:1.0f]];
+    }
+    
+    NSLog(@"%i => %@", printer.hasError, printer);
+    _errorLabel.text = [ViewController statusMessageForPrinterStatus:printer.status];
+}
+
+#pragma mark - Helpers
+
 - (CGFloat)widthOfView:(UIView *)view
 {
     return view.frame.size.width;
@@ -132,33 +166,6 @@
 {
     self.textLabel.textColor =
     _portName.textColor = color;
-}
-
-- (void)setPrinter:(Printer *)printer
-{
-    _printer = printer;
-    
-    self.textLabel.text = printer.name;
-    self.portName.text = printer.portName;
-    
-    if(printer.status == PrinterStatusConnecting) {
-        [_spinner startAnimating];
-    } else {
-        [_spinner stopAnimating];
-    }
-    
-    if(printer.status == PrinterStatusConnected) {
-        [self setColorScheme:[UIColor colorWithRed:0.2f green:0.6f blue:0.2f alpha:1.0f]];
-    } else if(printer.status == PrinterStatusLowPaper) {
-        [self setColorScheme:[UIColor colorWithRed:0.4f green:0.4f blue:0.2f alpha:1.0f]];
-    } else if(printer.hasError) {
-        [self setColorScheme:[UIColor colorWithRed:0.6f green:0.2f blue:0.2f alpha:1.0f]];
-    } else {
-        [self setColorScheme:[UIColor colorWithRed:0.f green:0.f blue:0.f alpha:1.0f]];
-    }
-    
-    NSLog(@"%i => %@", printer.hasError, printer);
-    _errorLabel.text = [ViewController statusMessageForPrinterStatus:printer.status];
 }
 
 @end

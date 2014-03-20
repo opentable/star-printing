@@ -20,7 +20,7 @@
 
 #define kLoadingAnimationDuration   0.25f
 #define kPrinterCellHeight          44.f
-#define kSearchBtnPositionY         167.f
+#define kSearchBtnPositionY         175.f
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
 
@@ -39,7 +39,6 @@
 @property (nonatomic, weak) IBOutlet UIButton *printTestBtn;
 @property (nonatomic, weak) IBOutlet UIButton *printTextBtn;
 
-
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (nonatomic, assign) BOOL searching;
@@ -54,12 +53,14 @@
 - (IBAction)search;
 - (IBAction)printTest;
 - (IBAction)printTextField;
-- (IBAction)printReceiptShort;
-- (IBAction)printReceiptLong;
+- (IBAction)printShortReceipt;
+- (IBAction)printLongReceipt;
 
 @end
 
 @implementation ViewController
+
+#pragma mark - Initialization
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -87,7 +88,6 @@
     _spinner.color = [UIColor lightGrayColor];
 	
     _titleLabel.font = kTitleLabelFont;
-    _titleLabel.textColor = [UIColor blackColor];
     [_titleLabel sizeToFit];
     
     _helpLabel.font =
@@ -95,8 +95,6 @@
     _emptyLabel.font = kHelpFont;
     
     _availableLabel.font = kAvailableFont;
-    
-    [self updateButtonStates:_printerStatus];
     
     _emptyLabel.textColor = [UIColor lightGrayColor];
     _emptyLabel.alpha = _empty;
@@ -109,7 +107,8 @@
     [self styleButton:_printShortReceiptBtn];
     [self styleButton:_printLongReceiptBtn];
     
-    // Update UI
+    [self updateButtonStates:_printerStatus];
+    
     if(_searching) {
         self.searching = YES;
     } else {
@@ -123,13 +122,20 @@
     [_scrollView bringSubviewToFront:_searchBtn];
 }
 
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+#pragma mark - Styling
+
 - (void)styleButton:(UIButton *)btn
 {
-    btn.backgroundColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.75f];
+    btn.backgroundColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.7f alpha:0.7f];
     btn.titleLabel.font = kBtnFont;
     btn.titleLabel.textColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.95f];
     [btn setBackgroundImage:[self imageWithColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.3f]] forState:UIControlStateHighlighted];
-    [btn setTitleColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.75f] forState:UIControlStateDisabled];
+    [btn setTitleColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.35f] forState:UIControlStateDisabled];
     btn.layer.cornerRadius = 10;
     btn.clipsToBounds = YES;
 }
@@ -146,11 +152,6 @@
     UIGraphicsEndImageContext();
     
     return image;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - Text Field & Keyboard
@@ -203,7 +204,7 @@
     return YES;
 }
 
-#pragma mark - Search
+#pragma mark - Searching
 
 - (void)setSearching:(BOOL)searching
 {
@@ -266,7 +267,56 @@
     }];
 }
 
-#pragma mark - Printer
+#pragma mark - Printing
+
+- (void)printTest
+{
+    Printer *printer = [Printer connectedPrinter];
+    if(printer) {
+        [printer printTest];
+    }
+}
+
+- (void)printTextField
+{
+    [_printableTextField resignFirstResponder];
+    if(_printTextBtn.isEnabled) {
+        [self print];
+    }
+}
+
+- (void)printShortReceipt
+{
+    if(![Printer connectedPrinter]) return;
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"receipt_short" ofType:@"xml"];
+    
+    PrintData *printData = [[PrintData alloc] initWithDictionary:nil atFilePath:filePath];
+    [[Printer connectedPrinter] print:printData];
+}
+
+- (void)printLongReceipt
+{
+    if(![Printer connectedPrinter]) return;
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"receipt_long" ofType:@"xml"];
+    
+    PrintData *printData = [[PrintData alloc] initWithDictionary:nil atFilePath:filePath];
+    [[Printer connectedPrinter] print:printData];
+}
+
+#pragma mark - Printable
+
+- (PrintData *)printedFormat
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"example" ofType:@"xml"];
+    
+    NSDictionary *dictionary = @{
+                                 @"{{userText}}" : [_printableTextField.text  isEqual: @""] ? @"(blank)" : _printableTextField.text
+                                 };
+    
+    return [[PrintData alloc] initWithDictionary:dictionary atFilePath:filePath];
+}
+
+#pragma mark - Connected Printer
 
 - (void)setConnectedPrinter:(Printer *)connectedPrinter
 {
@@ -290,73 +340,7 @@
     }
 }
 
-- (void)printTest
-{
-    Printer *printer = [Printer connectedPrinter];
-    if(printer) {
-        [printer printTest];
-    }
-}
-
-- (void)printTextField
-{
-    [_printableTextField resignFirstResponder];
-    if(_printTextBtn.isEnabled) {
-        [self print];
-    }
-}
-
-- (void)printReceiptShort
-{
-    if(![Printer connectedPrinter]) return;
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"receipt_short" ofType:@"xml"];
-    
-    PrintData *printData = [[PrintData alloc] initWithDictionary:nil atFilePath:filePath];
-    [[Printer connectedPrinter] print:printData];
-}
-
-- (void)printReceiptLong
-{
-    if(![Printer connectedPrinter]) return;
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"receipt_long" ofType:@"xml"];
-    
-    PrintData *printData = [[PrintData alloc] initWithDictionary:nil atFilePath:filePath];
-    [[Printer connectedPrinter] print:printData];
-}
-
-- (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status
-{
-    NSLog(@"Printer %@ did change status - %@", printer, [Printer stringForStatus:status]);
-    
-    if([_printers containsObject:printer]) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[_printers indexOfObject:printer] inSection:0];
-        [self.printersTableView beginUpdates];
-        [self.printersTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self.printersTableView endUpdates];
-        
-        [self updateButtonStates:status];
-        
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSData *encoded = [NSKeyedArchiver archivedDataWithRootObject:self.connectedPrinter];
-        [defaults setObject:encoded forKey:kConnectedPrinterKey];
-        [defaults synchronize];
-        
-        _printerStatus = status;
-    }
-}
-
-- (PrintData *)printedFormat
-{
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"example" ofType:@"xml"];
-    
-    NSDictionary *dictionary = @{
-                                 @"{{userText}}" : [_printableTextField.text  isEqual: @""] ? @"(blank)" : _printableTextField.text
-                                 };
-    
-    return [[PrintData alloc] initWithDictionary:dictionary atFilePath:filePath];
-}
-
-#pragma mark - TableView
+#pragma mark - Table View
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -429,6 +413,27 @@
 {
     for (id <PrinterConnectivityDelegate> d in _delegates) {
         [d connectedPrinterDidChangeTo:self.connectedPrinter];
+    }
+}
+
+- (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status
+{
+    NSLog(@"Printer %@ did change status - %@", printer, [Printer stringForStatus:status]);
+    
+    if([_printers containsObject:printer]) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[_printers indexOfObject:printer] inSection:0];
+        [self.printersTableView beginUpdates];
+        [self.printersTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.printersTableView endUpdates];
+        
+        [self updateButtonStates:status];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSData *encoded = [NSKeyedArchiver archivedDataWithRootObject:self.connectedPrinter];
+        [defaults setObject:encoded forKey:kConnectedPrinterKey];
+        [defaults synchronize];
+        
+        _printerStatus = status;
     }
 }
 
