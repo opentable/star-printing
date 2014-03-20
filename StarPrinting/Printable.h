@@ -6,11 +6,12 @@
 
 #import <Foundation/Foundation.h>
 #import "Printer.h"
+#import "PrintData.h"
 
 @protocol Printable <NSObject>
 
 @required
-- (NSData *)printedFormat;
+- (PrintData *)printedFormat;
 
 @end
 

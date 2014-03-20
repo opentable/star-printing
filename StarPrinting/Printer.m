@@ -336,25 +336,19 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 {
     if(![Printer connectedPrinter]) return;
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"xml"];
-    NSData *contents = [[NSFileManager defaultManager] contentsAtPath:path];
-    NSMutableString *s = [[NSMutableString alloc] initWithData:contents encoding:NSUTF8StringEncoding];
-    
-    NSDictionary *data = @{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"xml"];
+   
+    NSDictionary *dictionary = @{
                            @"{{printerStatus}}" : [Printer stringForStatus:[Printer connectedPrinter].status],
                            @"{{printerName}}" : [Printer connectedPrinter].name
                            };
     
-    [data enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
-        [s replaceOccurrencesOfString:key withString:value options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    }];
+    PrintData *printData = [[PrintData alloc] initWithDictionary:dictionary atFilePath:filePath];
     
-    PrintParser *parser = [[PrintParser alloc] init];
-    NSData *formatted = [parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]];
-    [self print:formatted];
+    [self print:printData];
 }
 
-- (void)print:(NSData *)data
+- (void)print:(PrintData *)printData
 {
     [self log:@"Queued a print job"];
     
@@ -363,7 +357,21 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         BOOL error = !portConnected || !self.isReadyToPrint;
         
         if(!error) {
-            if(![self printData:data]) {
+            
+            NSDictionary *dictionary = printData.dictionary;
+            NSString *filePath = printData.filePath;
+            
+            NSData *contents = [[NSFileManager defaultManager] contentsAtPath:filePath];
+            NSMutableString *s = [[NSMutableString alloc] initWithData:contents encoding:NSUTF8StringEncoding];
+            
+            [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+                [s replaceOccurrencesOfString:key withString:value options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+            }];
+            
+            PrintParser *parser = [[PrintParser alloc] init];
+            NSData *data = [parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]];
+            
+            if(![self printChit:data]) {
                 self.status = PrinterStatusPrintError;
                 error = YES;
             }
@@ -383,7 +391,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     [self addJob:printJob];
 }
 
-- (BOOL)printData:(NSData *)data
+- (BOOL)printChit:(NSData *)data
 {
     [self log:@"Printing"];
     

@@ -11,6 +11,7 @@
 		570BF66818DA3B28000876EA /* libStarPrinting.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9718D8AD5E00EE51FF /* libStarPrinting.a */; };
 		570BF66A18DA3F73000876EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 570BF66918DA3F73000876EA /* UIKit.framework */; };
 		57777E2518DB5D8800922AE5 /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57777E2418DB5D8800922AE5 /* example.xml */; };
+		57777E2818DB696E00922AE5 /* PrintData.m in Sources */ = {isa = PBXBuildFile; fileRef = 57777E2718DB696E00922AE5 /* PrintData.m */; };
 		57ECCF9B18D8AD5E00EE51FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */; };
 		57ECCFA918D8AD5E00EE51FF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCFA818D8AD5E00EE51FF /* XCTest.framework */; };
 		57ECCFAA18D8AD5E00EE51FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */; };
@@ -84,6 +85,8 @@
 		570BF5D818D9F31C000876EA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		570BF66918DA3F73000876EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		57777E2418DB5D8800922AE5 /* example.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = example.xml; path = StarPrintingExample/samples/example.xml; sourceTree = SOURCE_ROOT; };
+		57777E2618DB696E00922AE5 /* PrintData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintData.h; sourceTree = "<group>"; };
+		57777E2718DB696E00922AE5 /* PrintData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintData.m; sourceTree = "<group>"; };
 		57ECCF9718D8AD5E00EE51FF /* libStarPrinting.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStarPrinting.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		57ECCF9E18D8AD5E00EE51FF /* StarPrinting-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StarPrinting-Prefix.pch"; sourceTree = "<group>"; };
@@ -223,6 +226,8 @@
 				57ECD02718D8B01800EE51FF /* PrintParser.m */,
 				57ECD02818D8B01800EE51FF /* PrintTextFormatter.h */,
 				57ECD02918D8B01800EE51FF /* PrintTextFormatter.m */,
+				57777E2618DB696E00922AE5 /* PrintData.h */,
+				57777E2718DB696E00922AE5 /* PrintData.m */,
 				57ECCF9D18D8AD5E00EE51FF /* Supporting Files */,
 			);
 			path = StarPrinting;
@@ -452,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57ECD02B18D8B01800EE51FF /* Printer.m in Sources */,
+				57777E2818DB696E00922AE5 /* PrintData.m in Sources */,
 				57ECD02D18D8B01800EE51FF /* PrintTextFormatter.m in Sources */,
 				57ECD02C18D8B01800EE51FF /* PrintParser.m in Sources */,
 				57ECD02A18D8B01800EE51FF /* Printable.m in Sources */,

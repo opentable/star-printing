@@ -10,7 +10,7 @@
 
 - (void)print
 {
-    [[Printer connectedPrinter] print:[self performSelector:@selector(printedFormat)]];
+    [self print:[Printer connectedPrinter]];
 }
 
 - (void)print:(Printer *)printer

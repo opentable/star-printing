@@ -6,6 +6,7 @@
 
 #import <Foundation/Foundation.h>
 #import <StarIO/SMPort.h>
+#import "PrintData.h"
 
 #define kConnectedPrinterKey    @"ConnectedPrinterKey"
 
@@ -76,7 +77,7 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 
 // This should usually not be called directly, rather objects should
 // conform to the `Printable` protocol
-- (void)print:(NSData *)data;
+- (void)print:(PrintData *)data;
 
 // Convience methods
 + (NSString *)stringForStatus:(PrinterStatus)status;

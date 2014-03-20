@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <StarPrinting/PrintParser.h>
+#import <StarPrinting/PrintData.h>
 
 @interface ViewController ()
 
@@ -289,23 +290,15 @@
     }
 }
 
-- (NSData *)printedFormat
+- (PrintData *)printedFormat
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"example" ofType:@"xml"];
-    NSData *contents = [[NSFileManager defaultManager] contentsAtPath:path];
-    NSMutableString *s = [[NSMutableString alloc] initWithData:contents encoding:NSUTF8StringEncoding];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"example" ofType:@"xml"];
     
-    NSDictionary *data = @{
+    NSDictionary *dictionary = @{
                            @"{{userText}}" : [_printableTextField.text  isEqual: @""] ? @"(blank)" : _printableTextField.text
                            };
     
-    [data enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
-        [s replaceOccurrencesOfString:key withString:value options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-    }];
-    
-    PrintParser *parser = [[PrintParser alloc] init];
-    NSData *formatted = [parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]];
-    return formatted;
+    return [[PrintData alloc] initWithDictionary:dictionary atFilePath:filePath];
 }
 
 - (void)printTextField
