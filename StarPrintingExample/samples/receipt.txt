@@ -1,6 +1,0 @@
-Star Clothing Boutique
-123 Star Road
-City, State 12345
-
-    Date: MM/DD/YYYY    Time: HH:MM PM  
-<bold>SALE</bold>

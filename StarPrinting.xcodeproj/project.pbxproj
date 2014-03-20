@@ -13,6 +13,9 @@
 		57777E2518DB5D8800922AE5 /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57777E2418DB5D8800922AE5 /* example.xml */; };
 		57777E2818DB696E00922AE5 /* PrintData.m in Sources */ = {isa = PBXBuildFile; fileRef = 57777E2718DB696E00922AE5 /* PrintData.m */; };
 		57777E2C18DB779D00922AE5 /* SenAsyncTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 57777E2A18DB76AF00922AE5 /* SenAsyncTestCase.m */; };
+		579069EE18DB7E7900A44AED /* receipt_short.xml in Resources */ = {isa = PBXBuildFile; fileRef = 579069ED18DB7E7900A44AED /* receipt_short.xml */; };
+		579069F018DB7E9100A44AED /* receipt_long.xml in Resources */ = {isa = PBXBuildFile; fileRef = 579069EF18DB7E9100A44AED /* receipt_long.xml */; };
+		579069F218DB83B500A44AED /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 570BF5D818D9F31C000876EA /* QuartzCore.framework */; };
 		57ECCF9B18D8AD5E00EE51FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */; };
 		57ECCFA918D8AD5E00EE51FF /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCFA818D8AD5E00EE51FF /* XCTest.framework */; };
 		57ECCFAA18D8AD5E00EE51FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */; };
@@ -27,10 +30,6 @@
 		57ECCFE418D8ADCD00EE51FF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57ECCFE218D8ADCD00EE51FF /* Main.storyboard */; };
 		57ECCFE718D8ADCD00EE51FF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECCFE618D8ADCD00EE51FF /* ViewController.m */; };
 		57ECCFE918D8ADCD00EE51FF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57ECCFE818D8ADCD00EE51FF /* Images.xcassets */; };
-		57ECD01C18D8B00800EE51FF /* receipt_concise.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD01718D8B00800EE51FF /* receipt_concise.xml */; };
-		57ECD01D18D8B00800EE51FF /* receipt_verbose.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD01818D8B00800EE51FF /* receipt_verbose.xml */; };
-		57ECD01E18D8B00800EE51FF /* receipt.txt in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD01918D8B00800EE51FF /* receipt.txt */; };
-		57ECD01F18D8B00800EE51FF /* receipt.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD01A18D8B00800EE51FF /* receipt.xml */; };
 		57ECD02018D8B00800EE51FF /* test.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57ECD01B18D8B00800EE51FF /* test.xml */; };
 		57ECD02A18D8B01800EE51FF /* Printable.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD02218D8B01800EE51FF /* Printable.m */; };
 		57ECD02B18D8B01800EE51FF /* Printer.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD02518D8B01800EE51FF /* Printer.m */; };
@@ -81,6 +80,8 @@
 		57777E2718DB696E00922AE5 /* PrintData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintData.m; sourceTree = "<group>"; };
 		57777E2918DB76AF00922AE5 /* SenAsyncTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SenAsyncTestCase.h; sourceTree = "<group>"; };
 		57777E2A18DB76AF00922AE5 /* SenAsyncTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SenAsyncTestCase.m; sourceTree = "<group>"; };
+		579069ED18DB7E7900A44AED /* receipt_short.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = receipt_short.xml; path = StarPrintingExample/samples/receipt_short.xml; sourceTree = SOURCE_ROOT; };
+		579069EF18DB7E9100A44AED /* receipt_long.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = receipt_long.xml; path = StarPrintingExample/samples/receipt_long.xml; sourceTree = SOURCE_ROOT; };
 		57ECCF9718D8AD5E00EE51FF /* libStarPrinting.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStarPrinting.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		57ECCF9E18D8AD5E00EE51FF /* StarPrinting-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StarPrinting-Prefix.pch"; sourceTree = "<group>"; };
@@ -101,10 +102,6 @@
 		57ECCFE518D8ADCD00EE51FF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		57ECCFE618D8ADCD00EE51FF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		57ECCFE818D8ADCD00EE51FF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		57ECD01718D8B00800EE51FF /* receipt_concise.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = receipt_concise.xml; path = StarPrintingExample/samples/receipt_concise.xml; sourceTree = SOURCE_ROOT; };
-		57ECD01818D8B00800EE51FF /* receipt_verbose.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = receipt_verbose.xml; path = StarPrintingExample/samples/receipt_verbose.xml; sourceTree = SOURCE_ROOT; };
-		57ECD01918D8B00800EE51FF /* receipt.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = receipt.txt; path = StarPrintingExample/samples/receipt.txt; sourceTree = SOURCE_ROOT; };
-		57ECD01A18D8B00800EE51FF /* receipt.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = receipt.xml; path = StarPrintingExample/samples/receipt.xml; sourceTree = SOURCE_ROOT; };
 		57ECD01B18D8B00800EE51FF /* test.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = test.xml; path = StarPrintingExample/samples/test.xml; sourceTree = SOURCE_ROOT; };
 		57ECD02118D8B01800EE51FF /* Printable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Printable.h; sourceTree = "<group>"; };
 		57ECD02218D8B01800EE51FF /* Printable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Printable.m; sourceTree = "<group>"; };
@@ -151,6 +148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				579069F218DB83B500A44AED /* QuartzCore.framework in Frameworks */,
 				570BF66A18DA3F73000876EA /* UIKit.framework in Frameworks */,
 				570BF66818DA3B28000876EA /* libStarPrinting.a in Frameworks */,
 				57ECCFD418D8ADCD00EE51FF /* CoreGraphics.framework in Frameworks */,
@@ -162,6 +160,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		579069F118DB7EFB00A44AED /* Sample Chit Sheets */ = {
+			isa = PBXGroup;
+			children = (
+				57ECD01B18D8B00800EE51FF /* test.xml */,
+				57777E2418DB5D8800922AE5 /* example.xml */,
+				579069ED18DB7E7900A44AED /* receipt_short.xml */,
+				579069EF18DB7E9100A44AED /* receipt_long.xml */,
+			);
+			name = "Sample Chit Sheets";
+			sourceTree = "<group>";
+		};
 		57ECCF8E18D8AD5E00EE51FF = {
 			isa = PBXGroup;
 			children = (
@@ -259,7 +268,7 @@
 				57ECD04C18D8E94900EE51FF /* PrinterCell.h */,
 				57ECD04D18D8E94900EE51FF /* PrinterCell.m */,
 				57ECCFE818D8ADCD00EE51FF /* Images.xcassets */,
-				57ECD00218D8AE4B00EE51FF /* samples */,
+				579069F118DB7EFB00A44AED /* Sample Chit Sheets */,
 				57ECCFD718D8ADCD00EE51FF /* Supporting Files */,
 			);
 			path = StarPrintingExample;
@@ -274,20 +283,6 @@
 				57ECCFDE18D8ADCD00EE51FF /* StarPrintingExample-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		57ECD00218D8AE4B00EE51FF /* samples */ = {
-			isa = PBXGroup;
-			children = (
-				57ECD01718D8B00800EE51FF /* receipt_concise.xml */,
-				57ECD01818D8B00800EE51FF /* receipt_verbose.xml */,
-				57ECD01918D8B00800EE51FF /* receipt.txt */,
-				57ECD01A18D8B00800EE51FF /* receipt.xml */,
-				57ECD01B18D8B00800EE51FF /* test.xml */,
-				57777E2418DB5D8800922AE5 /* example.xml */,
-			);
-			name = samples;
-			path = "../../../star-printing/Resources/samples";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -394,14 +389,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				57ECCFE918D8ADCD00EE51FF /* Images.xcassets in Resources */,
-				57ECD01F18D8B00800EE51FF /* receipt.xml in Resources */,
-				57ECD01E18D8B00800EE51FF /* receipt.txt in Resources */,
 				57777E2518DB5D8800922AE5 /* example.xml in Resources */,
-				57ECD01C18D8B00800EE51FF /* receipt_concise.xml in Resources */,
-				57ECD01D18D8B00800EE51FF /* receipt_verbose.xml in Resources */,
 				57ECCFDB18D8ADCD00EE51FF /* InfoPlist.strings in Resources */,
 				57ECCFE418D8ADCD00EE51FF /* Main.storyboard in Resources */,
 				57ECD02018D8B00800EE51FF /* test.xml in Resources */,
+				579069F018DB7E9100A44AED /* receipt_long.xml in Resources */,
+				579069EE18DB7E7900A44AED /* receipt_short.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,29 +9,36 @@
 #import "ViewController.h"
 #import <StarPrinting/PrintParser.h>
 #import <StarPrinting/PrintData.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface ViewController ()
 
-#define kPadding                    10.f
-#define kLoadingAnimationDuration   0.25f
-#define kBtnSize                    CGSizeMake(80,30)
-#define kPrinterLabelFont           [UIFont fontWithName:@"Arial" size:19.f]
-#define kTextFieldFont              [UIFont fontWithName:@"Arial" size:15.f]
+#define kTitleLabelFont             [UIFont fontWithName:@"Arial" size:19.f]
+#define kHelpFont                   [UIFont fontWithName:@"Arial" size:15.f]
 #define kBtnFont                    [UIFont fontWithName:@"Arial" size:14.f]
-#define kHelpFont                   [UIFont fontWithName:@"Arial" size:12.f]
-#define kPrinterCellHeight          44.f
+#define kAvailableFont              [UIFont fontWithName:@"Arial" size:13.f]
 
-@property (nonatomic, weak) UITextField *activeField;
+#define kLoadingAnimationDuration   0.25f
+#define kPrinterCellHeight          44.f
+#define kSearchBtnPositionY         167.f
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
-@property (nonatomic, weak) IBOutlet UIButton *searchBtn;
-@property (nonatomic, weak) IBOutlet UIButton *printTestBtn;
+
 @property (nonatomic, weak) IBOutlet UITableView *printersTableView;
 @property (nonatomic, weak) IBOutlet UITextField *printableTextField;
-@property (nonatomic, weak) IBOutlet UILabel *textFieldLabel;
-@property (nonatomic, weak) IBOutlet UIButton *printBtn;
+
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *availableLabel;
+@property (nonatomic, weak) IBOutlet UILabel *optionsLabel;
+@property (nonatomic, weak) IBOutlet UILabel *helpLabel;
 @property (nonatomic, weak) IBOutlet UILabel *emptyLabel;
+
+@property (nonatomic, weak) IBOutlet UIButton *searchBtn;
+@property (nonatomic, weak) IBOutlet UIButton *printShortReceiptBtn;
+@property (nonatomic, weak) IBOutlet UIButton *printLongReceiptBtn;
+@property (nonatomic, weak) IBOutlet UIButton *printTestBtn;
+@property (nonatomic, weak) IBOutlet UIButton *printTextBtn;
+
 
 @property (nonatomic, weak) IBOutlet UIActivityIndicatorView *spinner;
 
@@ -47,6 +54,8 @@
 - (IBAction)search;
 - (IBAction)printTest;
 - (IBAction)printTextField;
+- (IBAction)printReceiptShort;
+- (IBAction)printReceiptLong;
 
 @end
 
@@ -61,6 +70,7 @@
             [self.printers addObject:[Printer connectedPrinter]];
         }
         self.delegates = [NSHashTable weakObjectsHashTable];
+        [self search];
     }
     
     return self;
@@ -76,15 +86,18 @@
     
     _spinner.color = [UIColor lightGrayColor];
 	
-    _titleLabel.font = kPrinterLabelFont;
+    _titleLabel.font = kTitleLabelFont;
     _titleLabel.textColor = [UIColor blackColor];
     [_titleLabel sizeToFit];
     
-    _textFieldLabel.font = kTextFieldFont;
+    _helpLabel.font =
+    _optionsLabel.font =
+    _emptyLabel.font = kHelpFont;
+    
+    _availableLabel.font = kAvailableFont;
     
     [self updateButtonStates:_printerStatus];
     
-    _emptyLabel.font = kTextFieldFont;
     _emptyLabel.textColor = [UIColor lightGrayColor];
     _emptyLabel.alpha = _empty;
 
@@ -92,7 +105,9 @@
     
     [self styleButton:_printTestBtn];
     [self styleButton:_searchBtn];
-    [self styleButton:_printBtn];
+    [self styleButton:_printTextBtn];
+    [self styleButton:_printShortReceiptBtn];
+    [self styleButton:_printLongReceiptBtn];
     
     // Update UI
     if(_searching) {
@@ -102,18 +117,21 @@
     }
     
     [self setSearching:self.searching];
-    
-    _activeField = nil;
     [self registerForKeyboardNotifications];
+    
+    [_scrollView addSubview:_searchBtn];
+    [_scrollView bringSubviewToFront:_searchBtn];
 }
 
 - (void)styleButton:(UIButton *)btn
 {
-    btn.backgroundColor = [UIColor darkGrayColor];
+    btn.backgroundColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.75f];
     btn.titleLabel.font = kBtnFont;
-    btn.titleLabel.textColor = [UIColor whiteColor];
-    [btn setBackgroundImage:[self imageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
-    [btn setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    btn.titleLabel.textColor = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.95f];
+    [btn setBackgroundImage:[self imageWithColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.3f]] forState:UIControlStateHighlighted];
+    [btn setTitleColor:[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.75f] forState:UIControlStateDisabled];
+    btn.layer.cornerRadius = 10;
+    btn.clipsToBounds = YES;
 }
 
 - (UIImage *)imageWithColor:(UIColor *)color {
@@ -160,14 +178,14 @@
     
     CGRect aRect = self.view.frame;
     aRect.size.height -= kbSize.height;
-    if (!CGRectContainsPoint(aRect, _activeField.frame.origin) ) {
-        [self.scrollView scrollRectToVisible:_activeField.frame animated:YES];
+    if (!CGRectContainsPoint(aRect, _printableTextField.frame.origin) ) {
+        [self.scrollView scrollRectToVisible:_printableTextField.frame animated:YES];
     }
     
-    CGRect bkgndRect = _activeField.superview.frame;
+    CGRect bkgndRect = _printableTextField.superview.frame;
     bkgndRect.size.height += kbSize.height;
-    [_activeField.superview setFrame:bkgndRect];
-    [_scrollView setContentOffset:CGPointMake(0.0, _activeField.frame.origin.y-kbSize.height) animated:YES];
+    [_printableTextField.superview setFrame:bkgndRect];
+    [_scrollView setContentOffset:CGPointMake(0.0, _printableTextField.frame.origin.y-kbSize.height) animated:YES];
 }
 
 - (void)keyboardWillBeHidden:(NSNotification*)notification
@@ -175,16 +193,6 @@
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
     _scrollView.contentInset = contentInsets;
     _scrollView.scrollIndicatorInsets = contentInsets;
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    _activeField = textField;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    _activeField = nil;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -290,21 +298,30 @@
     }
 }
 
-- (PrintData *)printedFormat
-{
-    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"example" ofType:@"xml"];
-    
-    NSDictionary *dictionary = @{
-                           @"{{userText}}" : [_printableTextField.text  isEqual: @""] ? @"(blank)" : _printableTextField.text
-                           };
-    
-    return [[PrintData alloc] initWithDictionary:dictionary atFilePath:filePath];
-}
-
 - (void)printTextField
 {
     [_printableTextField resignFirstResponder];
-    [self print];
+    if(_printTextBtn.isEnabled) {
+        [self print];
+    }
+}
+
+- (void)printReceiptShort
+{
+    if(![Printer connectedPrinter]) return;
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"receipt_short" ofType:@"xml"];
+    
+    PrintData *printData = [[PrintData alloc] initWithDictionary:nil atFilePath:filePath];
+    [[Printer connectedPrinter] print:printData];
+}
+
+- (void)printReceiptLong
+{
+    if(![Printer connectedPrinter]) return;
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"receipt_long" ofType:@"xml"];
+    
+    PrintData *printData = [[PrintData alloc] initWithDictionary:nil atFilePath:filePath];
+    [[Printer connectedPrinter] print:printData];
 }
 
 - (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status
@@ -328,6 +345,17 @@
     }
 }
 
+- (PrintData *)printedFormat
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"example" ofType:@"xml"];
+    
+    NSDictionary *dictionary = @{
+                                 @"{{userText}}" : [_printableTextField.text  isEqual: @""] ? @"(blank)" : _printableTextField.text
+                                 };
+    
+    return [[PrintData alloc] initWithDictionary:dictionary atFilePath:filePath];
+}
+
 #pragma mark - TableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -347,7 +375,11 @@
     
     CGSize size = [message boundingRectWithSize:CGSizeMake(_printersTableView.frame.size.width - 35.f, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:nil context:nil].size;
     
-    return kPrinterCellHeight + size.height;
+    CGFloat height = kPrinterCellHeight + size.height;
+    
+    _searchBtn.frame = CGRectMake(_searchBtn.frame.origin.x, kSearchBtnPositionY + (height * ([_printers count] > 0 ? [_printers count] - 1 : 0)), _searchBtn.frame.size.width, _searchBtn.frame.size.height);
+    
+    return height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -404,7 +436,10 @@
 
 - (void)updateButtonStates:(PrinterStatus)status
 {
-    _printTestBtn.enabled = _printBtn.enabled = status == PrinterStatusConnected || status == PrinterStatusLowPaper;
+    _printTestBtn.enabled =
+    _printTextBtn.enabled =
+    _printShortReceiptBtn.enabled =
+    _printLongReceiptBtn.enabled = status == PrinterStatusConnected || status == PrinterStatusLowPaper;
 }
 
 + (NSString *)iconForPrinterStatus:(PrinterStatus)status
