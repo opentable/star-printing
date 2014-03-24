@@ -23,6 +23,7 @@ typedef enum PrinterStatus
     PrinterStatusLostConnectionError,
     PrinterStatusPrintError,
     PrinterStatusUnknownError,
+    PrinterStatusIncompatible,
     PrinterStatusNoStatus
 } PrinterStatus;
 
@@ -40,8 +41,6 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 @class PortInfo, Printable;
 @interface Printer : NSObject
 
-@property (nonatomic, assign) BOOL debugLogging;
-
 @property (nonatomic, weak) id<PrinterDelegate> delegate;
 @property (nonatomic, readwrite) PrinterStatus status;
 @property (nonatomic, strong) SMPort *port;
@@ -55,10 +54,11 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 // Returns `friendlyName` if it exists, else `modelName`
 @property (nonatomic, readonly) NSString *name;
 
-@property (nonatomic, assign) BOOL isReadyToPrint;
-@property (nonatomic, assign) BOOL hasError;
-@property (nonatomic, assign) BOOL isOffline;
-@property (nonatomic, assign) BOOL isOnlineWithError;
+@property (nonatomic, readonly) BOOL isReadyToPrint;
+@property (nonatomic, readonly) BOOL hasError;
+@property (nonatomic, readonly) BOOL isOffline;
+@property (nonatomic, readonly) BOOL isOnlineWithError;
+@property (nonatomic, readonly) BOOL isCompatible;
 
 + (Printer *)printerFromPort:(PortInfo *)port;
 + (Printer *)connectedPrinter;

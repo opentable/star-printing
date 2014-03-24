@@ -418,7 +418,7 @@
 
 - (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status
 {
-    NSLog(@"Printer %@ did change status - %@", printer, [Printer stringForStatus:status]);
+    //NSLog(@"Printer %@ did change status - %@", printer, [Printer stringForStatus:status]);
     
     if([_printers containsObject:printer]) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[_printers indexOfObject:printer] inSection:0];
