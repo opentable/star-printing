@@ -6,8 +6,8 @@
 //  OpenTable
 //
 
+#import <StarPrinting/StarPrinting.h>
 #import "PrinterCell.h"
-#import "Printer.h"
 #import "ViewController.h"
 
 #define kTitleFont                     [UIFont fontWithName:@"Arial" size:12]

@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <StarPrinting/Printer.h>
+#import <StarPrinting/StarPrinting.h>
 #import "PrinterCell.h"
-#import <StarPrinting/Printable.h>
 
 @protocol PrinterConnectivityDelegate <NSObject>
 

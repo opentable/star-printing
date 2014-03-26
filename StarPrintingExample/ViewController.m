@@ -7,8 +7,6 @@
 //
 
 #import "ViewController.h"
-#import <StarPrinting/PrintParser.h>
-#import <StarPrinting/PrintData.h>
 #import <QuartzCore/QuartzCore.h>
 
 @interface ViewController ()
@@ -249,6 +247,9 @@
     [Printer search:^(NSArray *found) {
         if([found count] > 0) {
             [_printers addObjectsFromArray:found];
+            [_printers sortUsingComparator:^NSComparisonResult(Printer *obj1, Printer *obj2) {
+                return obj1.isCompatible ? NSOrderedAscending : NSOrderedDescending;
+            }];
             
             if(!_connectedPrinter) {
                 Printer *lastKnownPrinter = [Printer connectedPrinter];
@@ -380,6 +381,7 @@
     }
     
     Printer *printer = [_printers objectAtIndex:indexPath.row];
+    
     cell.printer = printer;
     
     return cell;
@@ -390,11 +392,27 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     Printer *printer = [_printers objectAtIndex:indexPath.row];
+    
+    if (!printer.isCompatible) {
+        return;
+    }
+    
     if(_connectedPrinter.status == PrinterStatusConnecting) {
         [printer disconnect];
     }
     self.connectedPrinter = _connectedPrinter == printer ? nil : printer;
     [self updateButtonStates:_connectedPrinter.status];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Printer *printer = [_printers objectAtIndex:indexPath.row];
+    
+    if(printer.status == PrinterStatusIncompatible) {
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    } else {
+        [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+    }
 }
 
 #pragma mark - Delegates

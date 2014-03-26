@@ -75,6 +75,7 @@
 /* Begin PBXFileReference section */
 		570BF5D818D9F31C000876EA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		570BF66918DA3F73000876EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5717A64118E3214700DA7486 /* StarPrinting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarPrinting.h; sourceTree = "<group>"; };
 		57777E2418DB5D8800922AE5 /* example.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = example.xml; path = StarPrintingExample/samples/example.xml; sourceTree = SOURCE_ROOT; };
 		57777E2618DB696E00922AE5 /* PrintData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintData.h; sourceTree = "<group>"; };
 		57777E2718DB696E00922AE5 /* PrintData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintData.m; sourceTree = "<group>"; };
@@ -209,6 +210,7 @@
 		57ECCF9C18D8AD5E00EE51FF /* StarPrinting */ = {
 			isa = PBXGroup;
 			children = (
+				5717A64118E3214700DA7486 /* StarPrinting.h */,
 				57ECD02118D8B01800EE51FF /* Printable.h */,
 				57ECD02218D8B01800EE51FF /* Printable.m */,
 				57ECD02318D8B01800EE51FF /* PrintCommands.h */,
