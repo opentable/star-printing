@@ -11,7 +11,7 @@
 #import <StarIO/Port.h>
 #import <objc/runtime.h>
 
-#define DEBUG_LOGGING           1
+#define DEBUG_LOGGING           NO
 #define DEBUG_PREFIX            @"Printer:"
 
 #define kHeartbeatInterval      5.f
@@ -26,6 +26,8 @@ typedef void(^PrinterJobBlock)(BOOL portConnected);
 
 @property (nonatomic, strong) NSTimer *heartbeatTimer;
 @property (nonatomic, assign) PrinterStatus previousOnlineStatus;
+
+- (BOOL)performCompatibilityCheck;
 
 @end
 
@@ -83,8 +85,6 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             }
         }
         
-        NSLog(@"%@", [NSString stringWithFormat:@"Printers found: %@", printers]);
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             block(printers);
         });
@@ -134,7 +134,9 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         case PrinterStatusPrintError:
             return NSLocalizedString(@"Print Error", @"Print Error");
             break;
-            
+        case PrinterStatusIncompatible:
+            return NSLocalizedString(@"Incompatible Printer", @"Incompatible Printer");
+            break;
         case PrinterStatusUnknownError:
         default:
             return NSLocalizedString(@"Unknown Error", @"Unknown Error");
@@ -150,7 +152,8 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     self.queue = [[NSOperationQueue alloc] init];
     self.queue.maxConcurrentOperationCount = 1;
     self.previousOnlineStatus = PrinterStatusDisconnected;
-    self.debugLogging = DEBUG_LOGGING;
+    
+    [self performCompatibilityCheck];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
@@ -229,7 +232,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         for(int i = 0; i < 20; i++) {
             portConnected = [self openPort];
             if(portConnected) break;
-            if(self.debugLogging) NSLog(@"Retrying to open port!");
+            [self log:@"Retrying to open port!"];
             usleep(1000 * 333);
         }
         
@@ -272,8 +275,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             
             if([self.jobs count] == 0) return;
-           
-            if(self.debugLogging) NSLog(@"***** RETRYING JOB ******");
+            [self log:@"***** RETRYING JOB ******"];
             
             PrinterJobBlock job = self.jobs[0];
             [self.jobs removeObjectAtIndex:0];
@@ -431,7 +433,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             }
         }
         @catch (PortException *exception) {
-            NSLog(@"%@", exception);
+            [self log:[exception description]];
             error = YES;
         }
         
@@ -478,6 +480,10 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (void)updateStatus
 {
+    if (![self performCompatibilityCheck]) {
+        return;
+    }
+    
     PrinterStatus status = PrinterStatusNoStatus;
     StarPrinterStatus_2 printerStatus;
     [self.port getParsedStatus:&printerStatus :2];
@@ -561,18 +567,48 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     return self.hasError && !self.isOffline && self.status != PrinterStatusPrintError;
 }
 
+/*
+ Star TSP100 model printers are do not support line mode commands.
+ Until better raster mode support is enabled, we're notify that they're incompatible.
+*/
+- (BOOL)isCompatible
+{
+    BOOL compatible = YES;
+    
+    NSArray *p = [self.modelName componentsSeparatedByString:@" ("];
+    if ([p count] == 2) {
+        
+        NSString *modelNumber = p[0];
+        if ([modelNumber length] == 6 && [modelNumber rangeOfString:@"TSP1"].location != NSNotFound) {
+            compatible = NO;
+        }
+    }
+    
+    return compatible;
+}
+
+- (BOOL)performCompatibilityCheck
+{
+    BOOL compatible = [self isCompatible];
+    if (!compatible) {
+        self.status = PrinterStatusIncompatible;
+    }
+    
+    return compatible;
+}
+
 #pragma mark - Helpers
 
 - (void)log:(NSString *)message
 {
-    if(self.debugLogging) {
+    if(DEBUG_LOGGING) {
         NSLog(@"%@", [NSString stringWithFormat:@"%@ %@ -> %@", DEBUG_PREFIX, self, message]);
     }
 }
 
 - (void)printJobCount:(NSString *)message
 {
-    if(self.debugLogging) NSLog(@"%@ -> Job Count = %i", message, [self.jobs count]);
+    [self log:[NSString stringWithFormat:@"%@ -> Job Count = %i", message, [self.jobs count]]];
 }
 
 - (BOOL)isConnectJob:(PrinterJobBlock)job

@@ -1,2 +1,10 @@
 Rakefile
 CHANGELOG.md
+.DS_Store
+
+# git 1.8 likes this
+**/*.xcuserdatad
+# git 1.7 included with apple likes this
+*.xcuserdatad
+
+xcshareddata

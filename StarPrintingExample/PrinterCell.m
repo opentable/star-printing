@@ -106,7 +106,6 @@
         [self setColorScheme:[UIColor colorWithRed:0.f green:0.f blue:0.f alpha:1.0f]];
     }
     
-    NSLog(@"%i => %@", printer.hasError, printer);
     _errorLabel.text = [ViewController statusMessageForPrinterStatus:printer.status];
 }
 
