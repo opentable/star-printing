@@ -31,11 +31,6 @@ The possible printer statuses are:
 You can install StarPrinting like any other CocoaPod.
 See [cocoapods.org](http://cocoapods.org/) for instructions on installing and using CocoaPods.
 
-#### Podfile
-
-	pod "StarPrinting", "~> 0.1"
-
-
 ## Usage
 
 ### Importing
