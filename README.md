@@ -42,7 +42,7 @@ See [cocoapods.org](http://cocoapods.org/) for instructions on installing and us
 The following import statement is the only one you will ever need. It will import all the necessary header files from the pod.
 
 ```objective-c
-#import <StarPrinting.StarPrinting.h>
+#import <StarPrinting/StarPrinting.h>
 ```
 
 ### Initializing
@@ -72,7 +72,7 @@ StarPrinting also provides a printer delegate protocol so that an application ca
 ```
 
 ### Printing
-StarPrinting uses XML files to store print data. When any print method is called, it parses the XML, encodes the data into a printer-friendly format, and lastly sends it off to be printed. Example XML files can be found in the [StarPrintingExample/samples](StarPrintingExample/samples) folder. You can find a list of acceptable XML tags [here](#List-of-XML-Tags)
+StarPrinting uses XML files to store print data. When any print method is called, it parses the XML, encodes the data into a printer-friendly format, and lastly sends it off to be printed. Example XML files can be found in the [StarPrintingExample/samples](StarPrintingExample/samples) folder. You can find a list of acceptable XML tags [here](#list-of-xml-tags).
 
 To send data to the printer, you must create a `PrintData` object. `PrintData` is a wrapper object that has two properties:
 
@@ -85,7 +85,6 @@ The file path tells the printer where the XML file is located and the dictionary
 To print out a test sheet, simply call the `printTest` method on the printer. This is an example where the printer creates the `PrintData` wrapper object for you. The test sheet xml file is included in the [samples](StarPrintingExample/samples) folder.
 
 ```objective-c
-Printer *printer = [Printer connectedPrinter];
 [[Printer connectedPrinter] printTest];
 ```
 
