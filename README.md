@@ -72,7 +72,7 @@ StarPrinting also provides a printer delegate protocol so that an application ca
 ```
 
 ### Printing
-StarPrinting uses XML files to store print data. When any print method is called, it parses the XML, encodes the data into a printer-friendly format, and lastly sends it off to be printed. Example XML files can be found in the [StarPrintingExample/samples](https://github.com/opentable/star-printing/tree/master/StarPrintingExample/samples) folder.
+StarPrinting uses XML files to store print data. When any print method is called, it parses the XML, encodes the data into a printer-friendly format, and lastly sends it off to be printed. Example XML files can be found in the [StarPrintingExample/samples](StarPrintingExample/samples) folder. You can find a list of acceptable XML tags [here](#List-of-XML-Tags)
 
 To send data to the printer, you must create a `PrintData` object. `PrintData` is a wrapper object that has two properties:
 
@@ -82,13 +82,11 @@ To send data to the printer, you must create a `PrintData` object. `PrintData` i
 The file path tells the printer where the XML file is located and the dictionary stores variable data to be consummed dynamically into the XML file.
 
 #### Print Test
-To print out a test sheet, simply call the `printTest` method on the printer. This is an example where the printer creates the `PrintData` wrapper object for you. The test sheet xml file is included in the pod under `Sample Chit Sheets`.
+To print out a test sheet, simply call the `printTest` method on the printer. This is an example where the printer creates the `PrintData` wrapper object for you. The test sheet xml file is included in the [samples](StarPrintingExample/samples) folder.
 
 ```objective-c
 Printer *printer = [Printer connectedPrinter];
-if(printer) {
-	[printer printTest];
-}
+[[Printer connectedPrinter] printTest];
 ```
 
 #### Print Static XML Files
@@ -123,13 +121,18 @@ The following is an example XML file that requires a day, month, and year variab
 
 ```xml
 <print>
-<text>The current day is: </text>
+<text><bold>The current day is: </bold></text>
 <text>{{month}}-{{day}}-{{year}}</text>
 </print>
 ```
 
 #### The Printable Protocol
 One of the most powerful tools StarPrinting provides is the ability to conform to the `Printable` protocol from any Objective-C class. All classes that conform to `Printable` must implement the `printedFormat` method. This method simply returns a `PrintData` object. When `print` is called on an instance of a printable class, it will automatically call `printedFormat` and send that data to the printer.
+
+Conforming to the protocol:
+```objective-c
+@interface MyDateClass : NSObject <Printable>
+```
 
 Implementing the method:
 ```objective-c
