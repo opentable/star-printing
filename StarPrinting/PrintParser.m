@@ -180,7 +180,7 @@ typedef enum PrintFormatElementType
             return @[@"newline", @"nl"];
             break;
         case PrintFormatElementTypeLarge:
-            return @[@"large", @"l"];
+            return @[@"large", @"lg"];
             break;
         case PrintFormatElementTypeInvertColor:
             return @[@"invertcolor", @"ic"];
