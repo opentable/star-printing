@@ -185,7 +185,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     BOOL error = NO;
     
     @try {
-        self.port = [PORT_CLASS getPort:self.portName :nil :3000];
+        self.port = [PORT_CLASS getPort:self.portName :@"" :3000];
         if(!self.port) {
             error = YES;
         }
