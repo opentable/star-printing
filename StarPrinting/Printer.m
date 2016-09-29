@@ -9,6 +9,7 @@
 #import "PrintCommands.h"
 #import "PrintParser.h"
 #import <StarIO/Port.h>
+#import <StarIO_Extension/StarIoExt.h>
 #import <objc/runtime.h>
 
 #define DEBUG_LOGGING           NO
@@ -366,20 +367,33 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         BOOL error = !portConnected || !self.isReadyToPrint;
         
         if(!error) {
-            
-            NSDictionary *dictionary = printData.dictionary;
-            NSString *filePath = printData.filePath;
-            
-            NSData *contents = [[NSFileManager defaultManager] contentsAtPath:filePath];
-            NSMutableString *s = [[NSMutableString alloc] initWithData:contents encoding:NSUTF8StringEncoding];
-            
-            [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
-                [s replaceOccurrencesOfString:key withString:value options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
-            }];
-            
-            PrintParser *parser = [[PrintParser alloc] init];
-            NSData *data = [parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]];
-            
+
+            NSData *data;
+            if (printData.image != nil) {
+                ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarGraphic];
+
+                [builder beginDocument];
+
+                [builder appendBitmap:printData.image diffusion:NO];
+                [builder appendCutPaper:SCBCutPaperActionPartialCutWithFeed];
+                [builder endDocument];
+
+                data = [builder.commands copy];
+            } else {
+                NSDictionary *dictionary = printData.dictionary;
+                NSString *filePath = printData.filePath;
+
+                NSData *contents = [[NSFileManager defaultManager] contentsAtPath:filePath];
+                NSMutableString *s = [[NSMutableString alloc] initWithData:contents encoding:NSUTF8StringEncoding];
+
+                [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+                    [s replaceOccurrencesOfString:key withString:value options:NSCaseInsensitiveSearch range:NSMakeRange(0, [s length])];
+                }];
+
+                PrintParser *parser = [[PrintParser alloc] init];
+                data = [parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]];
+            }
+
             if(![self printChit:data]) {
                 self.status = PrinterStatusPrintError;
                 error = YES;

@@ -8,36 +8,47 @@
 
 #import <Foundation/Foundation.h>
 
-@class SMPort;
-
 typedef enum _SMDeviceType {
+    SMDeviceTypeUnknown = 0,
     SMDeviceTypeDesktopPrinter,
-    SMDeviceTypePortablePrinter
+    SMDeviceTypePortablePrinter,
+    SMDeviceTypeDKAirCash,
 } SMDeviceType;
 
 typedef enum _SMBluetoothSecurity {
+    SMBluetoothSecurityDisable,
     SMBluetoothSecuritySSP,
     SMBluetoothSecurityPINcode
 } SMBluetoothSecurity;
 
-typedef enum _SecuritySetting {
-    PinCode,
-    SSP
-} SecuritySetting;
+typedef enum _SMBluetoothSettingCapability {
+    SMBluetoothSettingCapabilitySupport,
+    SMBluetoothSettingCapabilityNoSupport
+} SMBluetoothSettingCapability;
 
-@interface SMBluetoothManager : NSObject {
-    SMPort *port;
-}
+@interface SMBluetoothManager : NSObject
+
+#pragma mark readonly property
 
 @property(retain, readonly) NSString *portName;
 @property(assign, readonly) SMDeviceType deviceType;
 @property(assign, readonly) BOOL opened;
 
+#pragma mark property
+
 @property(retain) NSString *deviceName;
 @property(retain) NSString *iOSPortName;
 @property(assign) BOOL autoConnect;
 @property(assign) SMBluetoothSecurity security;
+@property(assign) BOOL pairingPermission;
 @property(retain) NSString *pinCode;
+
+@property(assign, readonly) SMBluetoothSettingCapability deviceNameCapability;
+@property(assign, readonly) SMBluetoothSettingCapability iOSPortNameCapability;
+@property(assign, readonly) SMBluetoothSettingCapability autoConnectCapability;
+@property(assign, readonly) SMBluetoothSettingCapability securityTypeCapability;
+@property(assign, readonly) SMBluetoothSettingCapability pairingPermissionCapability;
+@property(assign, readonly) SMBluetoothSettingCapability pinCodeCapability;
 
 #pragma mark Public API
 
