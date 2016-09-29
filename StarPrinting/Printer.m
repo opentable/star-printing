@@ -12,7 +12,7 @@
 #import <StarIO_Extension/StarIoExt.h>
 #import <objc/runtime.h>
 
-#define DEBUG_LOGGING           YES
+#define DEBUG_LOGGING           NO
 #define DEBUG_PREFIX            @"Printer:"
 
 #define kHeartbeatInterval      5.f
@@ -364,16 +364,12 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         if(!error) {
 
             NSData *data;
+            ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarGraphic];
+
+            [builder beginDocument];
+
             if (printData.image != nil) {
-                ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarGraphic];
-
-                [builder beginDocument];
-
                 [builder appendBitmap:printData.image diffusion:NO];
-                [builder appendCutPaper:SCBCutPaperActionPartialCutWithFeed];
-                [builder endDocument];
-
-                data = [builder.commands copy];
             } else {
                 NSDictionary *dictionary = printData.dictionary;
                 NSString *filePath = printData.filePath;
@@ -386,8 +382,13 @@ static char const * const ConnectJobTag = "ConnectJobTag";
                 }];
 
                 PrintParser *parser = [[PrintParser alloc] init];
-                data = [parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]];
+                [builder appendData:[parser parse:[s dataUsingEncoding:NSUTF8StringEncoding]]];
             }
+
+            [builder appendCutPaper:SCBCutPaperActionPartialCutWithFeed];
+            [builder endDocument];
+
+            data = [builder.commands copy];
 
             if(![self printChit:data]) {
                 self.status = PrinterStatusPrintError;
@@ -415,10 +416,8 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     
     BOOL error = NO;
     BOOL completed = NO;
-    
-    // Add cut manually
+
     NSMutableData *printData = [NSMutableData dataWithData:data];
-    [printData appendData:[kPrinterCMD_CutFull dataUsingEncoding:NSASCIIStringEncoding]];
     
     int commandSize = (int)[printData length];
     unsigned char *dataToSentToPrinter = (unsigned char *)malloc(commandSize);
