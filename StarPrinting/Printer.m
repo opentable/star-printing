@@ -12,7 +12,7 @@
 #import <StarIO_Extension/StarIoExt.h>
 #import <objc/runtime.h>
 
-#define DEBUG_LOGGING           NO
+#define DEBUG_LOGGING           YES
 #define DEBUG_PREFIX            @"Printer:"
 
 #define kHeartbeatInterval      5.f
@@ -75,15 +75,10 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         NSArray *found = [PORT_CLASS searchPrinter];
         
         NSMutableArray *printers = [NSMutableArray arrayWithCapacity:[found count]];
-        Printer *lastKnownPrinter = [Printer connectedPrinter];
         
         for(PortInfo *p in found) {
             Printer *printer = [Printer printerFromPort:p];
-            if([printer.macAddress isEqualToString:lastKnownPrinter.macAddress]) {
-                [printers addObject:lastKnownPrinter];
-            } else {
-                [printers addObject:printer];
-            }
+            [printers addObject:printer];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -425,7 +420,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     NSMutableData *printData = [NSMutableData dataWithData:data];
     [printData appendData:[kPrinterCMD_CutFull dataUsingEncoding:NSASCIIStringEncoding]];
     
-    int commandSize = [printData length];
+    int commandSize = (int)[printData length];
     unsigned char *dataToSentToPrinter = (unsigned char *)malloc(commandSize);
     [printData getBytes:dataToSentToPrinter];
     
@@ -582,23 +577,10 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 /*
- Star TSP100 model printers are do not support line mode commands.
- Until better raster mode support is enabled, we're notify that they're incompatible.
+ For future potential incompatible printers.
 */
-- (BOOL)isCompatible
-{
-    BOOL compatible = YES;
-    
-    NSArray *p = [self.modelName componentsSeparatedByString:@" ("];
-    if ([p count] == 2) {
-        
-        NSString *modelNumber = p[0];
-        if ([modelNumber length] == 6 && [modelNumber rangeOfString:@"TSP1"].location != NSNotFound) {
-            compatible = NO;
-        }
-    }
-    
-    return compatible;
+- (BOOL)isCompatible {
+    return YES;
 }
 
 - (BOOL)performCompatibilityCheck
@@ -615,14 +597,14 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (void)log:(NSString *)message
 {
-    if(DEBUG_LOGGING) {
+    if (DEBUG_LOGGING) {
         NSLog(@"%@", [NSString stringWithFormat:@"%@ %@ -> %@", DEBUG_PREFIX, self, message]);
     }
 }
 
 - (void)printJobCount:(NSString *)message
 {
-    [self log:[NSString stringWithFormat:@"%@ -> Job Count = %i", message, [self.jobs count]]];
+    [self log:[NSString stringWithFormat:@"%@ -> Job Count = %lu", message, (unsigned long)[self.jobs count]]];
 }
 
 - (BOOL)isConnectJob:(PrinterJobBlock)job
@@ -641,6 +623,16 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 {
     NSNumber *isHeartbeatJob = objc_getAssociatedObject(job, HeartbeatTag);
     return [isHeartbeatJob intValue] == 1;
+}
+
+#pragma mark -
+
+- (BOOL)isEqual:(id)object {
+    if (![object isKindOfClass:[Printer class]]) {
+        return NO;
+    }
+
+    return [[object macAddress] isEqualToString:self.macAddress];
 }
 
 @end
