@@ -69,6 +69,7 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 - (void)connect:(PrinterResultBlock)result;
 - (void)disconnect;
 - (void)printTest;
+- (void)openCashDrawer;
 
 // Should only be called by unit tests
 @property (nonatomic, strong) NSMutableArray *jobs;
