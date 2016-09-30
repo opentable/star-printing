@@ -335,6 +335,37 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     [self stopHeartbeat];
 }
 
+#pragma mark - Cash Drawer
+
+- (void)openCashDrawer {
+    [self log:@"Queued an open cash drawer job"];
+
+    PrinterJobBlock printJob = ^(BOOL portConnected) {
+        BOOL error = !portConnected || !self.isReadyToPrint;
+
+        if (!error) {
+            unsigned char commandCode = 0x07; // Open Cash Drawer Command
+            
+            if (![self printChit:[NSData dataWithBytes:&commandCode length:1]]) {
+                self.status = PrinterStatusPrintError;
+                error = YES;
+            }
+        }
+
+        if (error) {
+            [self log:@"Cash drawer job unsuccessful"];
+            [self jobFailedRetry:YES];
+        } else {
+            [self log:@"Cash drawer job successfully finished"];
+            [self jobWasSuccessful];
+        }
+    };
+
+    objc_setAssociatedObject(printJob, PrintJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+    [self addJob:printJob];
+}
+
 #pragma mark - Printing
 
 - (void)printTest
@@ -361,9 +392,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         
         BOOL error = !portConnected || !self.isReadyToPrint;
         
-        if(!error) {
-
-            NSData *data;
+        if (!error) {
             ISCBBuilder *builder = [StarIoExt createCommandBuilder:StarIoExtEmulationStarGraphic];
 
             [builder beginDocument];
@@ -388,9 +417,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             [builder appendCutPaper:SCBCutPaperActionPartialCutWithFeed];
             [builder endDocument];
 
-            data = [builder.commands copy];
-
-            if(![self printChit:data]) {
+            if (![self printChit:[builder.commands copy]]) {
                 self.status = PrinterStatusPrintError;
                 error = YES;
             }
