@@ -241,13 +241,23 @@ static char const * const ConnectJobTag = "ConnectJobTag";
                     self.status = PrinterStatusLostConnectionError;
                 }
             }
-        } else {
-            // Printer is online but might have an error
-            [self updateStatus];
         }
-        
-        job(portConnected);
-        [self releasePort];
+
+        @try {
+            StarPrinterStatus_2 beginStatus;
+            [self.port beginCheckedBlock:&beginStatus :2];
+            [self updateStatus:beginStatus];
+
+            job(portConnected);
+
+            StarPrinterStatus_2 endStatus;
+            [self.port endCheckedBlock:&endStatus :2];
+            [self updateStatus:endStatus];
+        } @catch (PortException *exception) {
+            [self log:@"Received PortException in job"];
+        } @finally {
+            [self releasePort];
+        }
     };
     
     [self.queue addOperationWithBlock:block];
@@ -513,15 +523,12 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 #pragma mark - Status
 
-- (void)updateStatus
-{
+- (void)updateStatus:(StarPrinterStatus_2)printerStatus {
     if (![self performCompatibilityCheck]) {
         return;
     }
     
     PrinterStatus status = PrinterStatusNoStatus;
-    StarPrinterStatus_2 printerStatus;
-    [self.port getParsedStatus:&printerStatus :2];
     
     if(printerStatus.offline == SM_TRUE) {
         if(printerStatus.coverOpen == SM_TRUE) {
