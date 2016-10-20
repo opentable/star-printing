@@ -17,6 +17,8 @@
 
 #define kHeartbeatInterval      5.f
 #define kJobRetryInterval       2.f
+#define kOpenPortRetries        3
+#define kMaxRetries             3
 
 #define PORT_CLASS              [[self class] portClass]
 
@@ -39,6 +41,7 @@ static Printer *connectedPrinter;
 static char const * const PrintJobTag = "PrintJobTag";
 static char const * const HeartbeatTag = "HeartbeatTag";
 static char const * const ConnectJobTag = "ConnectJobTag";
+static char const * const RetryCountTag = "RetryCountTag";
 
 @implementation Printer
 
@@ -226,22 +229,22 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 {
     PrinterOperationBlock block = ^{
         
-        if([self.jobs count] == 0) return;
+        if ([self.jobs count] == 0) return;
         
         PrinterJobBlock job = self.jobs[0];
         BOOL portConnected = NO;
         
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < kOpenPortRetries; i++) {
             portConnected = [self openPort];
-            if(portConnected) break;
+            if (portConnected) break;
             [self log:@"Retrying to open port!"];
             usleep(1000 * 333);
         }
         
-        if(!portConnected) {
+        if (!portConnected) {
             // Printer is offline
-            if(self.status != PrinterStatusUnknownError) {
-                if([self isConnectJob:job]) {
+            if (self.status != PrinterStatusUnknownError) {
+                if ([self isConnectJob:job]) {
                     self.status = PrinterStatusConnectionError;
                 } else {
                     self.status = PrinterStatusLostConnectionError;
@@ -278,7 +281,10 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (void)jobFailedRetry:(BOOL)retry
 {
-    if(!retry) {
+    PrinterJobBlock job = [self.jobs firstObject];
+    int retryCount = [self retryCount:job];
+
+    if (!retry || retryCount > kMaxRetries) {
         [self.jobs removeObjectAtIndex:0];
         [self printJobCount:@"FAILURE, Removing job"];
     } else {
@@ -286,11 +292,14 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             
-            if([self.jobs count] == 0) return;
+            if ([self.jobs count] == 0) return;
             [self log:@"***** RETRYING JOB ******"];
             
             PrinterJobBlock job = self.jobs[0];
             [self.jobs removeObjectAtIndex:0];
+
+            int retryCount = [self retryCount:job];
+            objc_setAssociatedObject(job, RetryCountTag, @(retryCount + 1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             [self.jobs addObject:job];
             
             [self runNext];
@@ -309,7 +318,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     
     PrinterJobBlock connectJob = ^(BOOL portConnected) {
         
-        if(!portConnected) {
+        if (!portConnected) {
             [self jobFailedRetry:YES];
             [self log:@"Failed to connect"];
         } else {
@@ -318,12 +327,13 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             [self log:@"Successfully connected"];
         }
         
-        if(result) {
+        if (result) {
             result(portConnected);
         }
     };
     
     objc_setAssociatedObject(connectJob, ConnectJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(connectJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN);
     
     [self addJob:connectJob];
 }
@@ -378,6 +388,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     };
 
     objc_setAssociatedObject(printJob, PrintJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(printJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN);
 
     [self addJob:printJob];
 }
@@ -439,7 +450,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             }
         }
         
-        if(error) {
+        if (error) {
             [self log:@"Print job unsuccessful"];
             [self jobFailedRetry:YES];
         } else {
@@ -449,6 +460,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     };
     
     objc_setAssociatedObject(printJob, PrintJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(printJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN);
 
     [self addJob:printJob];
 }
@@ -646,7 +658,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (BOOL)isConnectJob:(PrinterJobBlock)job
 {
-    NSNumber *isConnectJob = objc_getAssociatedObject(job, PrintJobTag);
+    NSNumber *isConnectJob = objc_getAssociatedObject(job, ConnectJobTag);
     return [isConnectJob intValue] == 1;
 }
 
@@ -660,6 +672,12 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 {
     NSNumber *isHeartbeatJob = objc_getAssociatedObject(job, HeartbeatTag);
     return [isHeartbeatJob intValue] == 1;
+}
+
+- (int)retryCount:(PrinterJobBlock)job
+{
+    NSNumber *retryCount = objc_getAssociatedObject(job, RetryCountTag);
+    return [retryCount intValue];
 }
 
 #pragma mark -
