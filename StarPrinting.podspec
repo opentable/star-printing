@@ -13,4 +13,6 @@ Pod::Spec.new do |s|
   s.xcconfig            = { 'FRAMEWORK_SEARCH_PATHS' => '"$(PODS_ROOT)/StarPrinting"' }
   s.vendored_frameworks = ['StarIO.framework', 'StarIO_Extension.framework']
   s.header_mappings_dir = 'StarIO'
+
+  s.dependency 'CocoaLumberjack'
 end
