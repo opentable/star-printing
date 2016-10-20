@@ -8,17 +8,19 @@
 #import "Printer.h"
 #import "PrintCommands.h"
 #import "PrintParser.h"
+#import <CocoaLumberjack/CocoaLumberjack.h>
 #import <StarIO/Port.h>
 #import <StarIO_Extension/StarIoExt.h>
 #import <objc/runtime.h>
 
-#define DEBUG_LOGGING           NO
 #define DEBUG_PREFIX            @"Printer:"
 
 #define kHeartbeatInterval      5.f
 #define kJobRetryInterval       2.f
 
 #define PORT_CLASS              [[self class] portClass]
+
+static int ddLogLevel = DDLogLevelWarning;
 
 typedef void(^PrinterOperationBlock)(void);
 typedef void(^PrinterJobBlock)(BOOL portConnected);
@@ -138,6 +140,10 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             return NSLocalizedString(@"Unknown Error", @"Unknown Error");
             break;
     }
+}
+
++ (void)enableDebugLogging {
+    ddLogLevel = DDLogLevelDebug;
 }
 
 #pragma mark - Initialization & Coding
@@ -630,9 +636,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (void)log:(NSString *)message
 {
-    if (DEBUG_LOGGING) {
-        NSLog(@"%@", [NSString stringWithFormat:@"%@ %@ -> %@", DEBUG_PREFIX, self, message]);
-    }
+    DDLogDebug(@"%@", [NSString stringWithFormat:@"%@ %@ -> %@", DEBUG_PREFIX, self, message]);
 }
 
 - (void)printJobCount:(NSString *)message

@@ -66,6 +66,8 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 + (Class)portClass;
 + (NSString *)stringForStatus:(PrinterStatus)status;
 
++ (void)enableDebugLogging;
+
 - (void)connect:(PrinterResultBlock)result;
 - (void)disconnect;
 - (void)printTest;
