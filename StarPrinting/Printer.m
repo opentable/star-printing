@@ -355,7 +355,9 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:kConnectedPrinterKey];
-    
+
+    [self.jobs removeAllObjects];
+    [self.queue cancelAllOperations];
     [self stopHeartbeat];
 }
 
@@ -571,7 +573,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 {
     if(self.status != status) {
         
-        if(!self.isOffline && self.status != PrinterStatusConnecting) {
+        if(!self.isOffline && !self.hasError && self.status != PrinterStatusConnecting) {
             self.previousOnlineStatus = self.status;
         }
         
