@@ -231,13 +231,13 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         
         PrinterJobBlock job = self.jobs[0];
         BOOL portConnected = NO;
-        int openPortRetries = arc4random_uniform(kMaxOpenPortRetries);
+        int openPortRetries = arc4random_uniform(kMaxOpenPortRetries) + 1;
         
         for (int i = 0; i < openPortRetries; i++) {
             portConnected = [self openPort];
             if (portConnected) break;
             [self log:@"Retrying to open port!"];
-            usleep(1000 * 333);
+            usleep(1000 * (arc4random_uniform(300) + 300)); // 300-600ms
         }
         
         if (!portConnected) {
