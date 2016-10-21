@@ -17,6 +17,7 @@
 
 #define kHeartbeatInterval      5.f
 #define kJobRetryInterval       2.f
+#define kMaxOpenPortRetries     5
 
 #define PORT_CLASS              [[self class] portClass]
 
@@ -226,22 +227,23 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 {
     PrinterOperationBlock block = ^{
         
-        if([self.jobs count] == 0) return;
+        if ([self.jobs count] == 0) return;
         
         PrinterJobBlock job = self.jobs[0];
         BOOL portConnected = NO;
+        int openPortRetries = arc4random_uniform(kMaxOpenPortRetries) + 1;
         
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < openPortRetries; i++) {
             portConnected = [self openPort];
-            if(portConnected) break;
+            if (portConnected) break;
             [self log:@"Retrying to open port!"];
-            usleep(1000 * 333);
+            usleep(1000 * (arc4random_uniform(300) + 300)); // 300-600ms
         }
         
-        if(!portConnected) {
+        if (!portConnected) {
             // Printer is offline
-            if(self.status != PrinterStatusUnknownError) {
-                if([self isConnectJob:job]) {
+            if (self.status != PrinterStatusUnknownError) {
+                if ([self isConnectJob:job]) {
                     self.status = PrinterStatusConnectionError;
                 } else {
                     self.status = PrinterStatusLostConnectionError;
@@ -278,7 +280,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (void)jobFailedRetry:(BOOL)retry
 {
-    if(!retry) {
+    if (!retry) {
         [self.jobs removeObjectAtIndex:0];
         [self printJobCount:@"FAILURE, Removing job"];
     } else {
@@ -286,7 +288,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             
-            if([self.jobs count] == 0) return;
+            if ([self.jobs count] == 0) return;
             [self log:@"***** RETRYING JOB ******"];
             
             PrinterJobBlock job = self.jobs[0];
@@ -309,7 +311,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     
     PrinterJobBlock connectJob = ^(BOOL portConnected) {
         
-        if(!portConnected) {
+        if (!portConnected) {
             [self jobFailedRetry:YES];
             [self log:@"Failed to connect"];
         } else {
@@ -318,7 +320,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             [self log:@"Successfully connected"];
         }
         
-        if(result) {
+        if (result) {
             result(portConnected);
         }
     };
@@ -330,7 +332,9 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (void)establishConnection
 {
-    if(!self.isOnlineWithError) self.status = PrinterStatusConnected;
+    if (!self.isOnlineWithError) {
+        self.status = PrinterStatusConnected;
+    }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encoded = [NSKeyedArchiver archivedDataWithRootObject:self];
@@ -439,7 +443,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             }
         }
         
-        if(error) {
+        if (error) {
             [self log:@"Print job unsuccessful"];
             [self jobFailedRetry:YES];
         } else {
@@ -568,10 +572,11 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         }
         
         _status = status;
+        PrinterStatus previousStatus = self.previousOnlineStatus;
         
         if(_delegate) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [_delegate printer:self didChangeStatus:status];
+                [_delegate printer:self didChangeStatus:status previousStatus:previousStatus];
             });
         }
     }
@@ -646,7 +651,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (BOOL)isConnectJob:(PrinterJobBlock)job
 {
-    NSNumber *isConnectJob = objc_getAssociatedObject(job, PrintJobTag);
+    NSNumber *isConnectJob = objc_getAssociatedObject(job, ConnectJobTag);
     return [isConnectJob intValue] == 1;
 }
 
