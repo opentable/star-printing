@@ -305,7 +305,11 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 - (void)connect:(PrinterResultBlock)result
 {
     [self log:@"Attempting to connect"];
-    
+
+    if (connectedPrinter) {
+        connectedPrinter.delegate = nil;
+        [connectedPrinter disconnect];
+    }
     connectedPrinter = self;
     self.status = PrinterStatusConnecting;
     
