@@ -334,14 +334,16 @@ static char const * const RetryCountTag = "RetryCountTag";
     };
     
     objc_setAssociatedObject(connectJob, ConnectJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(connectJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(connectJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     [self addJob:connectJob];
 }
 
 - (void)establishConnection
 {
-    if(!self.isOnlineWithError) self.status = PrinterStatusConnected;
+    if (!self.isOnlineWithError) {
+        self.status = PrinterStatusConnected;
+    }
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encoded = [NSKeyedArchiver archivedDataWithRootObject:self];
@@ -389,7 +391,7 @@ static char const * const RetryCountTag = "RetryCountTag";
     };
 
     objc_setAssociatedObject(printJob, PrintJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(printJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(printJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     [self addJob:printJob];
 }
@@ -461,7 +463,7 @@ static char const * const RetryCountTag = "RetryCountTag";
     };
     
     objc_setAssociatedObject(printJob, PrintJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(printJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(printJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     [self addJob:printJob];
 }
@@ -581,10 +583,11 @@ static char const * const RetryCountTag = "RetryCountTag";
         }
         
         _status = status;
+        PrinterStatus previousStatus = self.previousOnlineStatus;
         
         if(_delegate) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [_delegate printer:self didChangeStatus:status];
+                [_delegate printer:self didChangeStatus:status previousStatus:previousStatus];
             });
         }
     }

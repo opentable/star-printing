@@ -34,7 +34,9 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 @protocol PrinterDelegate <NSObject>
 
 @required
-- (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status;
+- (void)printer:(Printer *)printer
+didChangeStatus:(PrinterStatus)status
+ previousStatus:(PrinterStatus)previousStatus;
 
 @end
 
