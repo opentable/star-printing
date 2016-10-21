@@ -18,7 +18,6 @@
 #define kHeartbeatInterval      5.f
 #define kJobRetryInterval       2.f
 #define kMaxOpenPortRetries     5
-#define kMaxRetries             3
 
 #define PORT_CLASS              [[self class] portClass]
 
@@ -41,7 +40,6 @@ static Printer *connectedPrinter;
 static char const * const PrintJobTag = "PrintJobTag";
 static char const * const HeartbeatTag = "HeartbeatTag";
 static char const * const ConnectJobTag = "ConnectJobTag";
-static char const * const RetryCountTag = "RetryCountTag";
 
 @implementation Printer
 
@@ -282,10 +280,7 @@ static char const * const RetryCountTag = "RetryCountTag";
 
 - (void)jobFailedRetry:(BOOL)retry
 {
-    PrinterJobBlock job = [self.jobs firstObject];
-    int retryCount = [self retryCount:job];
-
-    if (!retry || retryCount > kMaxRetries) {
+    if (!retry) {
         [self.jobs removeObjectAtIndex:0];
         [self printJobCount:@"FAILURE, Removing job"];
     } else {
@@ -298,9 +293,6 @@ static char const * const RetryCountTag = "RetryCountTag";
             
             PrinterJobBlock job = self.jobs[0];
             [self.jobs removeObjectAtIndex:0];
-
-            int retryCount = [self retryCount:job];
-            objc_setAssociatedObject(job, RetryCountTag, @(retryCount + 1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
             [self.jobs addObject:job];
             
             [self runNext];
@@ -334,7 +326,6 @@ static char const * const RetryCountTag = "RetryCountTag";
     };
     
     objc_setAssociatedObject(connectJob, ConnectJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(connectJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     [self addJob:connectJob];
 }
@@ -391,7 +382,6 @@ static char const * const RetryCountTag = "RetryCountTag";
     };
 
     objc_setAssociatedObject(printJob, PrintJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(printJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     [self addJob:printJob];
 }
@@ -463,7 +453,6 @@ static char const * const RetryCountTag = "RetryCountTag";
     };
     
     objc_setAssociatedObject(printJob, PrintJobTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    objc_setAssociatedObject(printJob, RetryCountTag, @0, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     [self addJob:printJob];
 }
@@ -676,12 +665,6 @@ static char const * const RetryCountTag = "RetryCountTag";
 {
     NSNumber *isHeartbeatJob = objc_getAssociatedObject(job, HeartbeatTag);
     return [isHeartbeatJob intValue] == 1;
-}
-
-- (int)retryCount:(PrinterJobBlock)job
-{
-    NSNumber *retryCount = objc_getAssociatedObject(job, RetryCountTag);
-    return [retryCount intValue];
 }
 
 #pragma mark -
