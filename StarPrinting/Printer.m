@@ -17,7 +17,7 @@
 
 #define kHeartbeatInterval      5.f
 #define kJobRetryInterval       2.f
-#define kOpenPortRetries        3
+#define kMaxOpenPortRetries     5
 #define kMaxRetries             3
 
 #define PORT_CLASS              [[self class] portClass]
@@ -233,8 +233,9 @@ static char const * const RetryCountTag = "RetryCountTag";
         
         PrinterJobBlock job = self.jobs[0];
         BOOL portConnected = NO;
+        int openPortRetries = arc4random_uniform(kMaxOpenPortRetries);
         
-        for (int i = 0; i < kOpenPortRetries; i++) {
+        for (int i = 0; i < openPortRetries; i++) {
             portConnected = [self openPort];
             if (portConnected) break;
             [self log:@"Retrying to open port!"];
