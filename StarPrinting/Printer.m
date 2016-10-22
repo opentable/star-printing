@@ -273,6 +273,8 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (void)jobWasSuccessful
 {
+    if (self.status != PrinterStatusDisconnected) return;
+
     [self.jobs removeObjectAtIndex:0];
     [self printJobCount:@"SUCCESS, Removing job"];
     [self runNext];
@@ -287,7 +289,8 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         double delayInSeconds = kJobRetryInterval;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            
+            if (self.status == PrinterStatusDisconnected) return;
+
             if ([self.jobs count] == 0) return;
             [self log:@"***** RETRYING JOB ******"];
             
