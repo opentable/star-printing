@@ -15,7 +15,7 @@
 
 #define DEBUG_PREFIX            @"Printer:"
 
-#define kHeartbeatInterval      5.f
+#define kHeartbeatInterval      5
 #define kJobRetryInterval       2.f
 #define kMaxOpenPortRetries     5
 
@@ -30,6 +30,7 @@ typedef void(^PrinterJobBlock)(BOOL portConnected);
 
 @property (nonatomic, strong) NSTimer *heartbeatTimer;
 @property (nonatomic, assign) PrinterStatus previousOnlineStatus;
+@property (nonatomic, readonly) uint32_t heartbeatInterval;
 
 - (BOOL)performCompatibilityCheck;
 
@@ -273,7 +274,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 - (void)jobWasSuccessful
 {
-    if (self.status != PrinterStatusDisconnected) return;
+    if (self.status == PrinterStatusDisconnected) return;
 
     [self.jobs removeObjectAtIndex:0];
     [self printJobCount:@"SUCCESS, Removing job"];
@@ -505,13 +506,17 @@ static char const * const ConnectJobTag = "ConnectJobTag";
         
         free(dataToSentToPrinter);
         
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:kHeartbeatInterval]];
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:self.heartbeatInterval]];
     } while (!completed);
     
     return !error;
 }
 
 #pragma mark - Heartbeat
+
+- (uint32_t)heartbeatInterval {
+    return arc4random_uniform(kHeartbeatInterval) + kHeartbeatInterval;
+}
 
 - (void)heartbeat
 {
@@ -523,13 +528,22 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     objc_setAssociatedObject(heartbeatJob, HeartbeatTag, @1, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
     [self addJob:heartbeatJob];
+    [self scheduleHeartbeat];
+}
+
+- (void)scheduleHeartbeat {
+    self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:self.heartbeatInterval
+                                                           target:self
+                                                         selector:@selector(heartbeat)
+                                                         userInfo:nil
+                                                          repeats:NO];
 }
 
 - (void)startHeartbeat
 {
-    if(!self.heartbeatTimer) {
+    if (!self.heartbeatTimer) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:kHeartbeatInterval target:self selector:@selector(heartbeat) userInfo:nil repeats:YES];
+            [self scheduleHeartbeat];
         });
     }
 }
