@@ -276,7 +276,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 {
     if (self.status == PrinterStatusDisconnected) return;
 
-    [self.jobs removeObjectAtIndex:0];
+    [self _removeJob];
     [self printJobCount:@"SUCCESS, Removing job"];
     [self runNext];
 }
@@ -284,7 +284,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 - (void)jobFailedRetry:(BOOL)retry
 {
     if (!retry) {
-        [self.jobs removeObjectAtIndex:0];
+        [self _removeJob];
         [self printJobCount:@"FAILURE, Removing job"];
     } else {
         double delayInSeconds = kJobRetryInterval;
@@ -296,7 +296,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
             [self log:@"***** RETRYING JOB ******"];
             
             PrinterJobBlock job = self.jobs[0];
-            [self.jobs removeObjectAtIndex:0];
+            [self _removeJob];
             [self.jobs addObject:job];
             
             [self runNext];
@@ -698,6 +698,14 @@ static char const * const ConnectJobTag = "ConnectJobTag";
     }
 
     return [[object macAddress] isEqualToString:self.macAddress];
+}
+
+#pragma mark - Private
+
+- (void)_removeJob {
+    if ([self.jobs count] > 0) {
+        [self.jobs removeObjectAtIndex:0];
+    }
 }
 
 @end
