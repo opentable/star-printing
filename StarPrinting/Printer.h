@@ -11,8 +11,7 @@
 
 #define kConnectedPrinterKey    @"ConnectedPrinterKey"
 
-typedef enum PrinterStatus
-{
+typedef enum PrinterStatus {
     PrinterStatusDisconnected,
     PrinterStatusConnecting,
     PrinterStatusConnected,
@@ -34,9 +33,7 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 @protocol PrinterDelegate <NSObject>
 
 @required
-- (void)printer:(Printer *)printer
-didChangeStatus:(PrinterStatus)status
- previousStatus:(PrinterStatus)previousStatus;
+- (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status previousStatus:(PrinterStatus)previousStatus;
 
 @end
 
@@ -52,8 +49,6 @@ didChangeStatus:(PrinterStatus)status
 @property (nonatomic, strong) NSString *macAddress;
 @property (nonatomic, strong) NSString *friendlyName;
 
-// Helper method
-// Returns `friendlyName` if it exists, else `modelName`
 @property (nonatomic, readonly) NSString *name;
 
 @property (nonatomic, readonly) BOOL isReadyToPrint;
@@ -69,6 +64,7 @@ didChangeStatus:(PrinterStatus)status
 + (NSString *)stringForStatus:(PrinterStatus)status;
 
 + (void)enableDebugLogging;
++ (void)disableDebugLogging;
 
 - (void)connect:(PrinterResultBlock)result;
 - (void)disconnect;
