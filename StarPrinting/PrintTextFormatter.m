@@ -143,7 +143,7 @@
 
 - (void)add:(NSString *)text
 {
-    [_commands appendData:[text dataUsingEncoding:NSASCIIStringEncoding]];
+    [_commands appendData:[text dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 @end
