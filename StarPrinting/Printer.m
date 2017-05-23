@@ -42,6 +42,8 @@ static char const * const PrintJobTag = "PrintJobTag";
 static char const * const HeartbeatTag = "HeartbeatTag";
 static char const * const ConnectJobTag = "ConnectJobTag";
 
+static BOOL heartbeatEnabled = YES;
+
 @implementation Printer
 
 #pragma mark - Class Methods
@@ -134,6 +136,16 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 
 + (void)disableDebugLogging {
     ddLogLevel = DDLogLevelWarning;
+}
+
++ (void)disableHeartbeat {
+    heartbeatEnabled = NO;
+    [connectedPrinter stopHeartbeat];
+}
+
++ (void)enableHeartbeat {
+    heartbeatEnabled = YES;
+    [connectedPrinter startHeartbeat];
 }
 
 #pragma mark - Initialization & Coding
@@ -499,6 +511,10 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 - (void)scheduleHeartbeat {
+    if (!heartbeatEnabled) {
+        return;
+    }
+
     self.heartbeatTimer = [NSTimer scheduledTimerWithTimeInterval:self.heartbeatInterval
                                                            target:self
                                                          selector:@selector(heartbeat)
@@ -507,7 +523,7 @@ static char const * const ConnectJobTag = "ConnectJobTag";
 }
 
 - (void)startHeartbeat {
-    if (!self.heartbeatTimer) {
+    if (!self.heartbeatTimer && heartbeatEnabled) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self scheduleHeartbeat];
         });

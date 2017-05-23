@@ -65,6 +65,8 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 
 + (void)enableDebugLogging;
 + (void)disableDebugLogging;
++ (void)enableHeartbeat;
++ (void)disableHeartbeat;
 
 - (void)connect:(PrinterResultBlock)result;
 - (void)disconnect;
