@@ -5,12 +5,14 @@ Pod::Spec.new do |s|
   s.homepage            = "https://github.com/opentable/star-printing"
   s.license             = 'MIT'
   s.authors             = { "Will Loderhose" => "will.loderhose@gmail.com" , "Matt Newberry" => "mattnewberry@me.com"}
-  s.source              = { :git => "https://github.com/opentable/star-printing.git", :tag => '0.1.1' }
+  s.source              = { :git => "https://github.com/greenbits/star-printing.git", :tag => '0.1.1' }
   s.requires_arc        = true
   s.source_files        = 'StarPrinting/*.{h,m}'
   s.platform            = :ios, '7.0'
-  s.preserve_paths      = 'StarIO.framework'
+  s.preserve_paths      = 'StarIO*.framework'
   s.xcconfig            = { 'FRAMEWORK_SEARCH_PATHS' => '"$(PODS_ROOT)/StarPrinting"' }
-  s.vendored_frameworks = 'StarIO.framework'
+  s.vendored_frameworks = ['StarIO.framework', 'StarIO_Extension.framework']
   s.header_mappings_dir = 'StarIO'
+
+  s.dependency 'CocoaLumberjack'
 end

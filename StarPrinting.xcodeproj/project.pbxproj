@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		570BF5D718D9F11B000876EA /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD04F18D8E97600EE51FF /* StarIO.framework */; };
+		54E483CB1D9D791A00E4290C /* StarIO_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E483C91D9D791A00E4290C /* StarIO_Extension.framework */; };
+		54E483CC1D9D791A00E4290C /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54E483CA1D9D791A00E4290C /* StarIO.framework */; };
 		570BF66818DA3B28000876EA /* libStarPrinting.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECCF9718D8AD5E00EE51FF /* libStarPrinting.a */; };
 		570BF66A18DA3F73000876EA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 570BF66918DA3F73000876EA /* UIKit.framework */; };
 		57777E2518DB5D8800922AE5 /* example.xml in Resources */ = {isa = PBXBuildFile; fileRef = 57777E2418DB5D8800922AE5 /* example.xml */; };
@@ -38,9 +39,8 @@
 		57ECD03918D8B1B500EE51FF /* FakeSMPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03718D8B1B500EE51FF /* FakeSMPort.m */; };
 		57ECD03B18D8B1E000EE51FF /* FakePrinterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03518D8B1B500EE51FF /* FakePrinterManager.m */; };
 		57ECD04E18D8E94900EE51FF /* PrinterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD04D18D8E94900EE51FF /* PrinterCell.m */; };
-		57ECD05018D8E97600EE51FF /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD04F18D8E97600EE51FF /* StarIO.framework */; };
-		57ECD05118D8E98100EE51FF /* StarIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD04F18D8E97600EE51FF /* StarIO.framework */; };
 		57ECD05318D8E98800EE51FF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD05218D8E98800EE51FF /* SenTestingKit.framework */; };
+		666E7E851F7D701F00E335D8 /* SMCloudServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666E7E841F7D701F00E335D8 /* SMCloudServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +73,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		54E483C91D9D791A00E4290C /* StarIO_Extension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StarIO_Extension.framework; sourceTree = "<group>"; };
+		54E483CA1D9D791A00E4290C /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StarIO.framework; sourceTree = "<group>"; };
 		570BF5D818D9F31C000876EA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		570BF66918DA3F73000876EA /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5717A64118E3214700DA7486 /* StarPrinting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StarPrinting.h; sourceTree = "<group>"; };
@@ -119,8 +121,8 @@
 		57ECD03718D8B1B500EE51FF /* FakeSMPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeSMPort.m; sourceTree = "<group>"; };
 		57ECD04C18D8E94900EE51FF /* PrinterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrinterCell.h; sourceTree = "<group>"; };
 		57ECD04D18D8E94900EE51FF /* PrinterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrinterCell.m; sourceTree = "<group>"; };
-		57ECD04F18D8E97600EE51FF /* StarIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = StarIO.framework; sourceTree = "<group>"; };
 		57ECD05218D8E98800EE51FF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		666E7E841F7D701F00E335D8 /* SMCloudServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMCloudServices.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,7 +130,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57ECD05018D8E97600EE51FF /* StarIO.framework in Frameworks */,
+				666E7E851F7D701F00E335D8 /* SMCloudServices.framework in Frameworks */,
+				54E483CB1D9D791A00E4290C /* StarIO_Extension.framework in Frameworks */,
+				54E483CC1D9D791A00E4290C /* StarIO.framework in Frameworks */,
 				57ECCF9B18D8AD5E00EE51FF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,7 +142,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				57ECD05318D8E98800EE51FF /* SenTestingKit.framework in Frameworks */,
-				57ECD05118D8E98100EE51FF /* StarIO.framework in Frameworks */,
 				57ECCFAF18D8AD5E00EE51FF /* libStarPrinting.a in Frameworks */,
 				57ECCFA918D8AD5E00EE51FF /* XCTest.framework in Frameworks */,
 				57ECCFAA18D8AD5E00EE51FF /* Foundation.framework in Frameworks */,
@@ -153,7 +156,6 @@
 				570BF66A18DA3F73000876EA /* UIKit.framework in Frameworks */,
 				570BF66818DA3B28000876EA /* libStarPrinting.a in Frameworks */,
 				57ECCFD418D8ADCD00EE51FF /* CoreGraphics.framework in Frameworks */,
-				570BF5D718D9F11B000876EA /* StarIO.framework in Frameworks */,
 				57ECCFD218D8ADCD00EE51FF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -196,10 +198,12 @@
 		57ECCF9918D8AD5E00EE51FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				666E7E841F7D701F00E335D8 /* SMCloudServices.framework */,
+				54E483C91D9D791A00E4290C /* StarIO_Extension.framework */,
+				54E483CA1D9D791A00E4290C /* StarIO.framework */,
 				570BF66918DA3F73000876EA /* UIKit.framework */,
 				570BF5D818D9F31C000876EA /* QuartzCore.framework */,
 				57ECD05218D8E98800EE51FF /* SenTestingKit.framework */,
-				57ECD04F18D8E97600EE51FF /* StarIO.framework */,
 				57ECCF9A18D8AD5E00EE51FF /* Foundation.framework */,
 				57ECCFA818D8AD5E00EE51FF /* XCTest.framework */,
 				57ECCFD318D8ADCD00EE51FF /* CoreGraphics.framework */,

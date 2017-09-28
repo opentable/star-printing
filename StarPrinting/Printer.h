@@ -11,8 +11,7 @@
 
 #define kConnectedPrinterKey    @"ConnectedPrinterKey"
 
-typedef enum PrinterStatus
-{
+typedef enum PrinterStatus {
     PrinterStatusDisconnected,
     PrinterStatusConnecting,
     PrinterStatusConnected,
@@ -34,7 +33,7 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 @protocol PrinterDelegate <NSObject>
 
 @required
-- (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status;
+- (void)printer:(Printer *)printer didChangeStatus:(PrinterStatus)status previousStatus:(PrinterStatus)previousStatus;
 
 @end
 
@@ -50,8 +49,6 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 @property (nonatomic, strong) NSString *macAddress;
 @property (nonatomic, strong) NSString *friendlyName;
 
-// Helper method
-// Returns `friendlyName` if it exists, else `modelName`
 @property (nonatomic, readonly) NSString *name;
 
 @property (nonatomic, readonly) BOOL isReadyToPrint;
@@ -66,9 +63,15 @@ typedef void(^PrinterSearchBlock)(NSArray *found);
 + (Class)portClass;
 + (NSString *)stringForStatus:(PrinterStatus)status;
 
++ (void)enableDebugLogging;
++ (void)disableDebugLogging;
++ (void)enableHeartbeat;
++ (void)disableHeartbeat;
+
 - (void)connect:(PrinterResultBlock)result;
 - (void)disconnect;
 - (void)printTest;
+- (void)openCashDrawer;
 
 // Should only be called by unit tests
 @property (nonatomic, strong) NSMutableArray *jobs;
