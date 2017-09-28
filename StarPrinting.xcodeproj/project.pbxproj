@@ -40,6 +40,7 @@
 		57ECD03B18D8B1E000EE51FF /* FakePrinterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD03518D8B1B500EE51FF /* FakePrinterManager.m */; };
 		57ECD04E18D8E94900EE51FF /* PrinterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 57ECD04D18D8E94900EE51FF /* PrinterCell.m */; };
 		57ECD05318D8E98800EE51FF /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57ECD05218D8E98800EE51FF /* SenTestingKit.framework */; };
+		666E7E851F7D701F00E335D8 /* SMCloudServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666E7E841F7D701F00E335D8 /* SMCloudServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,6 +122,7 @@
 		57ECD04C18D8E94900EE51FF /* PrinterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrinterCell.h; sourceTree = "<group>"; };
 		57ECD04D18D8E94900EE51FF /* PrinterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrinterCell.m; sourceTree = "<group>"; };
 		57ECD05218D8E98800EE51FF /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		666E7E841F7D701F00E335D8 /* SMCloudServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SMCloudServices.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				666E7E851F7D701F00E335D8 /* SMCloudServices.framework in Frameworks */,
 				54E483CB1D9D791A00E4290C /* StarIO_Extension.framework in Frameworks */,
 				54E483CC1D9D791A00E4290C /* StarIO.framework in Frameworks */,
 				57ECCF9B18D8AD5E00EE51FF /* Foundation.framework in Frameworks */,
@@ -195,6 +198,7 @@
 		57ECCF9918D8AD5E00EE51FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				666E7E841F7D701F00E335D8 /* SMCloudServices.framework */,
 				54E483C91D9D791A00E4290C /* StarIO_Extension.framework */,
 				54E483CA1D9D791A00E4290C /* StarIO.framework */,
 				570BF66918DA3F73000876EA /* UIKit.framework */,
